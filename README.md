@@ -1,6 +1,6 @@
 # Trackminster
 
-The Employee Work Tracker Web Application is a comprehensive tool designed to help employers keep track of their employees' daily work activities. This web application allows administrators to monitor employee tasks, generate graphical reports, and manage user accounts effectively.
+Trackminster is a comprehensive tool designed to help employers keep track of their employees' daily work activities. This web application allows administrators to monitor employee tasks, generate graphical reports, and manage user accounts effectively.
 
 ## Features
 
@@ -26,7 +26,7 @@ The Employee Work Tracker Web Application is a comprehensive tool designed to he
 
 ## Technologies Used
 
-The Employee Work Tracker Web Application is built using the following technologies:
+Trackminster is built using the following technologies:
 
 - **Front-end**: HTML, CSS, JavaScript, React.js
 - **Back-end**: Node.js, Express.js
@@ -42,13 +42,13 @@ To set up the application locally, please follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/trackminster-frontend.git
+git clone https://github.com/your-username/trackminster.git
 ```
 
 2. Install the required dependencies:
 
 ```bash
-cd trackminster-frontend
+cd trackminster
 npm install
 ```
 
