@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Trackminster
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Employee Work Tracker Web Application is a comprehensive tool designed to help employers keep track of their employees' daily work activities. This web application allows administrators to monitor employee tasks, generate graphical reports, and manage user accounts effectively.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+1. **Admin Login**: Administrators can log in with their username and password to access the admin dashboard and perform administrative tasks.
 
-### `npm start`
+2. **Employee Management**: Administrators can add employees to the system by providing necessary details such as Name, Mail ID, Contact Number, Department, Joining Date, and Password. This feature enables easy management of employee accounts.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. **Role-Based Access**: Both administrators and employees can log in using the same URL but will be directed to their respective dashboards based on their roles. Administrators will have access to the admin dashboard, while employees will have access to their personalized employee dashboard.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. **Employee Task Logging**: Employees can log their daily tasks, including breaks, meetings, and work activities. By clicking the "Add Task" button, employees can fill out a form with fields such as Task Description, Task Type (Break, Meeting, or Work), Start Time, and Time taken to complete the task in minutes.
 
-### `npm test`
+5. **Multiple Tasks per Day**: Employees can add multiple tasks for a given day. However, they can only add tasks for the current day or past dates.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+6. **Employee Dashboard**: The employee dashboard provides graphical information about the employee's tasks. It includes two pie charts—one for the current day and another for the previous day. The pie charts display data for break, meeting, and work activities. Additionally, a stacked bar chart shows three bars representing "Not Working" (including breaks), "Working" (including work tasks), and "Meeting" (including meetings). The stacked bar chart represents weekly data.
 
-### `npm run build`
+7. **Admin Dashboard**: The admin dashboard displays a list of all employees. When the admin clicks on any employee's name, both the pie chart and stacked bar chart for that employee will be visible. This allows administrators to analyze and compare the tasks and work patterns of different employees.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+8. **Date Filtering**: Both employees and administrators can filter the data based on a selected date. When a date is selected, the pie chart for that specific date and all the tasks recorded on that date will be shown. This feature allows for detailed analysis of employee activities on specific days.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+9. **Employee Deactivation**: Administrators have the authority to deactivate an employee. Once an employee is deactivated, they will no longer be able to log in or add any tasks. This feature ensures control and management of active employee accounts.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+10. **Profile Update**: Employees can update their profiles and passwords through the profile section. They can modify details such as their name, contact number, department, and password. However, the email ID cannot be changed.
 
-### `npm run eject`
+## Technologies Used
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The Employee Work Tracker Web Application is built using the following technologies:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Front-end**: HTML, CSS, JavaScript, React.js
+- **Back-end**: Node.js, Express.js
+- **Database**: MongoDB
+- **Authentication**: JSON Web Tokens (JWT)
+- **Charts**: Chart.js or any other suitable charting library
+- **Deployment**: Docker, Kubernetes
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Getting Started
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To set up the application locally, please follow these steps:
 
-## Learn More
+1. Clone the repository:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+git clone https://github.com/your-username/trackminster-frontend.git
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Install the required dependencies:
 
-### Code Splitting
+```bash
+cd trackminster-frontend
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3. Set up the environment variables:
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   - Create a `.env` file in the root directory of the project.
+   - Define the necessary environment variables such as database connection URL, JWT
