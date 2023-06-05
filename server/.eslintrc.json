@@ -9,5 +9,9 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "import/no-extraneous-dependencies": ["off"],
+        "no-underscore-dangle": ["off"],
+        "consistent-return": ["off"],
+        "import/extensions": ["off"]
     }
 }
