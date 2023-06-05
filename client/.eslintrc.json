@@ -7,10 +7,12 @@
     "extends": [
         "react-app",
         "react-app/jest",
-        "airbnb"
+        "airbnb",
+        "plugin:prettier/recommended"
     ],
     "plugins": [
-        "react"
+        "react",
+        "prettier"
     ],
     "overrides": [
         {
@@ -34,7 +36,7 @@
                 "avoidEscape": true
             }
         ],
-        "react/jsx-uses-react": ["off"],
+        // "react/jsx-uses-react": ["off"],
         "react/react-in-jsx-scope": ["off"],
         "react/jsx-props-no-spreading": ["warn"],
         "no-shadow": "off"
