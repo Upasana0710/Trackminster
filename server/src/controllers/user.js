@@ -29,7 +29,7 @@ export const authenticate = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.json({ message: error.message });
+    res.json(error);
   }
 };
 
