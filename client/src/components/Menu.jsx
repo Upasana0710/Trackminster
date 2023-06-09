@@ -4,6 +4,7 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const MenuContainer = styled.div`
   width: 220px;
@@ -44,17 +45,20 @@ const NavText = styled.div`
 `;
 // eslint-disable-next-line react/prop-types
 const Menu = ({ darkMode, setDarkMode }) => {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <MenuContainer>
-      <Link
-        to="/addemployee"
-        style={{ textDecoration: "none", color: "inherit", width: "100%" }}
-      >
-        <Elements>
-          <AddIcon />
-          <NavText>Add Employee</NavText>
-        </Elements>
-      </Link>
+      {currentUser?.role === "Admin" && (
+        <Link
+          to="/addemployee"
+          style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+        >
+          <Elements>
+            <AddIcon />
+            <NavText>Add Employee</NavText>
+          </Elements>
+        </Link>
+      )}
       {darkMode ? (
         <Elements onClick={() => setDarkMode(false)}>
           <LightModeRoundedIcon />
