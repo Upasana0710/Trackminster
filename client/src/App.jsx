@@ -5,6 +5,7 @@ import { darkTheme, lightTheme } from "./utils/Theme";
 import Navbar from "./components/Navbar";
 import Menu from "./components/Menu";
 import Login from "./components/Login";
+import AddEmployee from "./pages/AddEmployee";
 import Dashboard from "./pages/Dashboard";
 
 const Trackminster = styled.div`
@@ -32,6 +33,7 @@ function App() {
           <Login signUpOpen={signUpOpen} setSignUpOpen={setSignUpOpen} />
           <Routes>
             <Route path="/" exact element={<Dashboard />} />
+            <Route path="/addemployee" exact element={<AddEmployee />} />
           </Routes>
         </Trackminster>
       </BrowserRouter>

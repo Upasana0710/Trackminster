@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import AddIcon from "@mui/icons-material/Add";
+import { Link } from "react-router-dom";
 
 const MenuContainer = styled.div`
-  width: 200px;
+  width: 220px;
   flex-direction: column;
   height: 100vh;
   display: flex;
@@ -44,6 +46,15 @@ const NavText = styled.div`
 const Menu = ({ darkMode, setDarkMode }) => {
   return (
     <MenuContainer>
+      <Link
+        to="/addemployee"
+        style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+      >
+        <Elements>
+          <AddIcon />
+          <NavText>Add Employee</NavText>
+        </Elements>
+      </Link>
       {darkMode ? (
         <Elements onClick={() => setDarkMode(false)}>
           <LightModeRoundedIcon />
