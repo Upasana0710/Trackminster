@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal } from "@mui/material";
 import styled from "styled-components";
-import login from "../api/api";
+import { login } from "../api";
 
 const Container = styled.div`
   width: 100%;
