@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Modal } from "@mui/material";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import login from "../api/api";
+import { login } from "../api";
+import { loginSuccess } from "../redux/userSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -98,221 +97,213 @@ const Message = styled.div`
   }
 `;
 
-const Login = ({ signUpOpen, setSignUpOpen }) => {
+const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [role, setRole] = useState(true);
   const [user, setUser] = useState({
     username: "",
     email: "",
     password: "",
-    role: "",
+    role: "Admin",
   });
   const [isNew, setIsNew] = useState(true);
   const clear = () => {
-    setUser({ username: "", email: "", password: "", role: "" });
+    setUser({ username: "", email: "", password: "", role: "Admin" });
   };
-  function handleSubmit() {
+  const handleSubmit = async () => {
     if (role) {
       setUser({ ...user, role: "Admin" });
     } else {
       setUser({ ...user, role: "Employee" });
     }
-    // await login(user)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    if (user.username === "" || user.email === "" || user.password === "") {
+    if (user.username === "" || user.password === "") {
       alert("Please fill in the required details");
     } else {
-      dispatch(login(user, navigate));
+      await login(user)
+        .then((res) => {
+          dispatch(loginSuccess(res.data));
+          console.log(res.data);
+          clear();
+        })
+        .catch((err) => console.log(err));
     }
-    clear();
-    setSignUpOpen(false);
-  }
+  };
   return (
     <>
-      {signUpOpen && (
-        <Modal open={true}>
-          <Container>
-            <Card>
-              <InnerCard>
-                <ToggleContainer>
-                  {role ? (
-                    <Roleh
-                      style={{ borderRight: "1px solid #8370FE" }}
-                      onClick={() => setRole(true)}
-                    >
-                      Admin
-                    </Roleh>
-                  ) : (
-                    <Role
-                      style={{ borderRight: "1px solid #8370FE" }}
-                      onClick={() => setRole(true)}
-                    >
-                      Admin
-                    </Role>
-                  )}
-                  {role ? (
-                    <Role onClick={() => setRole(false)}>Employee</Role>
-                  ) : (
-                    <Roleh onClick={() => setRole(false)}>Employee</Roleh>
-                  )}
-                </ToggleContainer>
-                {role ? (
-                  isNew ? (
-                    <Fields>
-                      <Field>
-                        <input
-                          type="text"
-                          placeholder="Userame"
-                          style={{
-                            background: "inherit",
-                            color: "inherit",
-                            outline: "none",
-                            border: "none",
-                            width: "100%",
-                          }}
-                          value={user.username}
-                          onChange={(e) =>
-                            setUser({ ...user, username: e.target.value })
-                          }
-                        />
-                      </Field>
-                      <Field>
-                        <input
-                          type="text"
-                          placeholder="Email"
-                          style={{
-                            background: "inherit",
-                            color: "inherit",
-                            outline: "none",
-                            border: "none",
-                            width: "100%",
-                          }}
-                          value={user.email}
-                          onChange={(e) =>
-                            setUser({ ...user, email: e.target.value })
-                          }
-                        />
-                      </Field>
-                      <Field>
-                        <input
-                          type="password"
-                          placeholder="Password"
-                          style={{
-                            background: "inherit",
-                            color: "inherit",
-                            outline: "none",
-                            border: "none",
-                            width: "100%",
-                          }}
-                          value={user.password}
-                          onChange={(e) =>
-                            setUser({ ...user, password: e.target.value })
-                          }
-                        />
-                      </Field>
-                      <ButtonContainer onClick={() => handleSubmit()}>
-                        Sign Up
-                      </ButtonContainer>
-                      <Message onClick={() => setIsNew(false)}>
-                        Already have an account? Sign In
-                      </Message>
-                    </Fields>
-                  ) : (
-                    <Fields>
-                      <Field>
-                        <input
-                          type="text"
-                          placeholder="Userame"
-                          style={{
-                            background: "inherit",
-                            color: "inherit",
-                            outline: "none",
-                            border: "none",
-                            width: "100%",
-                          }}
-                          value={user.username}
-                          onChange={(e) =>
-                            setUser({ ...user, username: e.target.value })
-                          }
-                        />
-                      </Field>
-                      <Field>
-                        <input
-                          type="password"
-                          placeholder="Password"
-                          style={{
-                            background: "inherit",
-                            color: "inherit",
-                            outline: "none",
-                            border: "none",
-                            width: "100%",
-                          }}
-                          value={user.password}
-                          onChange={(e) =>
-                            setUser({ ...user, password: e.target.value })
-                          }
-                        />
-                      </Field>
-                      <ButtonContainer onClick={() => handleSubmit()}>
-                        Sign In
-                      </ButtonContainer>
-                      <Message onClick={() => setIsNew(false)}>
-                        Do not have an account? Sign Up
-                      </Message>
-                    </Fields>
-                  )
-                ) : (
-                  <Fields>
-                    <Field>
-                      <input
-                        type="text"
-                        placeholder="Userame"
-                        style={{
-                          background: "inherit",
-                          color: "inherit",
-                          outline: "none",
-                          border: "none",
-                          width: "100%",
-                        }}
-                        value={user.username}
-                        onChange={(e) =>
-                          setUser({ ...user, username: e.target.value })
-                        }
-                      />
-                    </Field>
-                    <Field>
-                      <input
-                        type="password"
-                        placeholder="Password"
-                        style={{
-                          background: "inherit",
-                          color: "inherit",
-                          outline: "none",
-                          border: "none",
-                          width: "100%",
-                        }}
-                        value={user.password}
-                        onChange={(e) =>
-                          setUser({ ...user, password: e.target.value })
-                        }
-                      />
-                    </Field>
-                    <ButtonContainer onClick={() => handleSubmit()}>
-                      Sign In
-                    </ButtonContainer>
-                  </Fields>
-                )}
-              </InnerCard>
-            </Card>
-          </Container>
-        </Modal>
-      )}
+      <Container>
+        <Card>
+          <InnerCard>
+            <ToggleContainer>
+              {role ? (
+                <Roleh
+                  style={{ borderRight: "1px solid #8370FE" }}
+                  onClick={() => setRole(true)}
+                >
+                  Admin
+                </Roleh>
+              ) : (
+                <Role
+                  style={{ borderRight: "1px solid #8370FE" }}
+                  onClick={() => setRole(true)}
+                >
+                  Admin
+                </Role>
+              )}
+              {role ? (
+                <Role onClick={() => setRole(false)}>Employee</Role>
+              ) : (
+                <Roleh onClick={() => setRole(false)}>Employee</Roleh>
+              )}
+            </ToggleContainer>
+            {role ? (
+              isNew ? (
+                <Fields>
+                  <Field>
+                    <input
+                      type="text"
+                      placeholder="Userame"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.username}
+                      onChange={(e) =>
+                        setUser({ ...user, username: e.target.value })
+                      }
+                    />
+                  </Field>
+                  <Field>
+                    <input
+                      type="text"
+                      placeholder="Email"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.email}
+                      onChange={(e) =>
+                        setUser({ ...user, email: e.target.value })
+                      }
+                    />
+                  </Field>
+                  <Field>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.password}
+                      onChange={(e) =>
+                        setUser({ ...user, password: e.target.value })
+                      }
+                    />
+                  </Field>
+                  <ButtonContainer onClick={() => handleSubmit()}>
+                    Sign Up
+                  </ButtonContainer>
+                  <Message onClick={() => setIsNew(false)}>
+                    Already have an account? Sign In
+                  </Message>
+                </Fields>
+              ) : (
+                <Fields>
+                  <Field>
+                    <input
+                      type="text"
+                      placeholder="Userame"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.username}
+                      onChange={(e) =>
+                        setUser({ ...user, username: e.target.value })
+                      }
+                    />
+                  </Field>
+                  <Field>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.password}
+                      onChange={(e) =>
+                        setUser({ ...user, password: e.target.value })
+                      }
+                    />
+                  </Field>
+                  <ButtonContainer onClick={() => handleSubmit()}>
+                    Sign In
+                  </ButtonContainer>
+                  <Message onClick={() => setIsNew(false)}>
+                    Do not have an account? Sign Up
+                  </Message>
+                </Fields>
+              )
+            ) : (
+              <Fields>
+                <Field>
+                  <input
+                    type="text"
+                    placeholder="Userame"
+                    style={{
+                      background: "inherit",
+                      color: "inherit",
+                      outline: "none",
+                      border: "none",
+                      width: "100%",
+                    }}
+                    value={user.username}
+                    onChange={(e) =>
+                      setUser({ ...user, username: e.target.value })
+                    }
+                  />
+                </Field>
+                <Field>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    style={{
+                      background: "inherit",
+                      color: "inherit",
+                      outline: "none",
+                      border: "none",
+                      width: "100%",
+                    }}
+                    value={user.password}
+                    onChange={(e) =>
+                      setUser({ ...user, password: e.target.value })
+                    }
+                  />
+                </Field>
+                <ButtonContainer onClick={() => handleSubmit()}>
+                  Sign In
+                </ButtonContainer>
+              </Fields>
+            )}
+          </InnerCard>
+        </Card>
+      </Container>
     </>
   );
 };
