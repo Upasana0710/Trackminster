@@ -1,7 +1,7 @@
 import React from "react";
 
-const Home = () => {
-  return <div />;
+const Dashboard = () => {
+  return <div>Dashboard</div>;
 };
 
-export default Home;
+export default Dashboard;
