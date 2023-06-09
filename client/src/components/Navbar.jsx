@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/userSlice";
 
 const Navcontainer = styled.div`
   display: flex;
@@ -31,12 +33,23 @@ const Button = styled.div`
     padding: 16px;
   }
 `;
+const Welcome = styled.div`
+  font-size: 20px;
+  font-weight: 550;
+  color: ${({ theme }) => theme.text_primary};
+`;
 const Content = styled.div``;
-const Navbar = ({ setSignUpOpen }) => {
+const Navbar = () => {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <Navcontainer>
-      <Button onClick={() => setSignUpOpen(true)}>
-        <Content>Login</Content>
+      <Welcome>{currentUser?.username}</Welcome>
+      <Button>
+        <Content onClick={handleLogout}>Logout</Content>
       </Button>
     </Navcontainer>
   );
