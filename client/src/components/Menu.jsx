@@ -59,6 +59,17 @@ const Menu = ({ darkMode, setDarkMode }) => {
           </Elements>
         </Link>
       )}
+      {currentUser?.role === "Employee" && (
+        <Link
+          to="/addtask"
+          style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+        >
+          <Elements>
+            <AddIcon />
+            <NavText>Add Task</NavText>
+          </Elements>
+        </Link>
+      )}
       {darkMode ? (
         <Elements onClick={() => setDarkMode(false)}>
           <LightModeRoundedIcon />
