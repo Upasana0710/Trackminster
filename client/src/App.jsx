@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import AddEmployee from "./pages/AddEmployee";
 import Dashboard from "./pages/Dashboard";
 import DashboardEmp from "./pages/DashboardEmp";
+import AddTask from "./pages/AddTask";
 
 const Trackminster = styled.div`
   display: flex;
@@ -56,6 +57,7 @@ function App() {
                   }
                 />
                 <Route path="/addemployee" exact element={<AddEmployee />} />
+                <Route path="/addtask" exact element={<AddTask />} />
               </Routes>
             </Container>
           </Trackminster>
