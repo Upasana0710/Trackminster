@@ -48,6 +48,7 @@
         "import/prefer-default-export": "off",
         "no-nested-ternary": "off",
         "import/extensions": "off",
-        "import/no-unresolved": "off"
+        "import/no-unresolved": "off",
+        "no-plusplus": "off"
     }
 }
