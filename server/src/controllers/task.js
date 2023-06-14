@@ -44,3 +44,43 @@ export const pieData = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export const barData = async (req, res) => {
+  const { empid } = req.body;
+
+  try {
+    const employee = await User.findById(empid).populate('tasks');
+
+    // Filter tasks for the current week
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+    // eslint-disable-next-line max-len
+    const endOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 6));
+    const filteredTasks = employee.tasks.filter((task) => {
+      const taskDate = new Date(task.startTime);
+      return taskDate >= startOfWeek && taskDate <= endOfWeek;
+    });
+
+    // Calculate total time for each task type
+    const timeByType = filteredTasks.reduce((acc, task) => {
+      const { type, time } = task;
+      if (acc[type]) {
+        acc[type] += time;
+      } else {
+        acc[type] = time;
+      }
+      return acc;
+    }, {});
+
+    // Convert accumulated data to the desired response format
+    const responseData = Object.entries(timeByType).map(([type, time]) => ({
+      type,
+      time,
+    }));
+
+    res.json(responseData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
