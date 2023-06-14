@@ -16,3 +16,5 @@ export const createTask = (task, token) =>
 
 // pie chart
 export const pieData = (data) => API.post("/task/pie", data);
+// bar graph
+export const barData = (data) => API.post("/task/bar", data);
