@@ -54,7 +54,7 @@ const BarGraph = ({ id }) => {
       <Title>Weekly Statistics</Title>
       <Chart
         type="bar"
-        width={900}
+        width={800}
         height={500}
         series={[
           {
