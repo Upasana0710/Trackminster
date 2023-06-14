@@ -13,3 +13,34 @@ export const createTask = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+
+export const pieData = async (req, res) => {
+  const { date, empid } = req.body;
+  const onlyDate = date.split('T')[0];
+
+  try {
+    const employee = await User.findById(empid).populate('tasks');
+    const filteredTasks = employee.tasks.filter((task) => {
+      const taskDate = new Date(task.startTime).toISOString().split('T')[0];
+      return taskDate === onlyDate;
+    });
+    const timeByType = filteredTasks.reduce((acc, task) => {
+      const { type, time } = task;
+      if (acc[type]) {
+        acc[type] += time;
+      } else {
+        acc[type] = time;
+      }
+      return acc;
+    }, {});
+    // Convert accumulated data to the desired response format
+    const responseData = Object.entries(timeByType).map(([type, time]) => ({
+      type,
+      time,
+    }));
+    res.json(responseData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
