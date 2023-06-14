@@ -49,6 +49,7 @@
         "no-nested-ternary": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
-        "no-plusplus": "off"
+        "no-plusplus": "off",
+        "no-underscore-dangle": "off"
     }
 }
