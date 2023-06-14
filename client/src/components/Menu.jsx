@@ -16,6 +16,9 @@ const MenuContainer = styled.div`
   align-items: flex-start;
   background-color: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text_primary};
+  position: fixed;
+  left: 0;
+  z-index: 99;
   @media (max-width: 1100px) {
     position: fixed;
     z-index: 1000;

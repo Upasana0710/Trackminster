@@ -14,6 +14,10 @@ const Navcontainer = styled.div`
   color: ${({ theme }) => theme.text_primary};
   gap: 30px;
   background: ${({ theme }) => theme.bg};
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 99;
   @media (max-width: 768px) {
     padding: 16px;
   }

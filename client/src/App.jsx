@@ -15,19 +15,24 @@ const Trackminster = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100vh;
   background: ${({ theme }) => theme.bgLight};
-  overflow-y: hidden;
   overflow-x: hidden;
+  overflow-y: hidden;
 `;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 100vh;
   background: ${({ theme }) => theme.bgLight};
-  overflow-y: hidden;
   overflow-x: hidden;
+`;
+const Pages = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 function App() {
@@ -44,21 +49,23 @@ function App() {
             <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
             <Container>
               <Navbar />
-              <Routes>
-                <Route
-                  path="/"
-                  exact
-                  element={
-                    currentUser?.role === "Admin" ? (
-                      <Dashboard />
-                    ) : (
-                      <DashboardEmp />
-                    )
-                  }
-                />
-                <Route path="/addemployee" exact element={<AddEmployee />} />
-                <Route path="/addtask" exact element={<AddTask />} />
-              </Routes>
+              <Pages>
+                <Routes>
+                  <Route
+                    path="/"
+                    exact
+                    element={
+                      currentUser?.role === "Admin" ? (
+                        <Dashboard />
+                      ) : (
+                        <DashboardEmp />
+                      )
+                    }
+                  />
+                  <Route path="/addemployee" exact element={<AddEmployee />} />
+                  <Route path="/addtask" exact element={<AddTask />} />
+                </Routes>
+              </Pages>
             </Container>
           </Trackminster>
         ) : (
