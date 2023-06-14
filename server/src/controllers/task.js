@@ -33,11 +33,14 @@ export const pieData = async (req, res) => {
       }
       return acc;
     }, {});
-    // Convert accumulated data to the desired response format
-    const responseData = Object.entries(timeByType).map(([type, time]) => ({
-      type,
-      time,
-    }));
+
+    // Sort the accumulated data by type in a consistent order
+    // eslint-disable-next-line max-len
+    const sortedData = Object.entries(timeByType).sort(([typeA], [typeB]) => typeA.localeCompare(typeB));
+
+    // Convert sorted data to the desired response format
+    const responseData = sortedData.map(([type, time]) => ({ type, time }));
+
     res.json(responseData);
   } catch (error) {
     console.error(error);
