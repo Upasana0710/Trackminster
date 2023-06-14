@@ -5,12 +5,17 @@ import { pieData } from "../api/index";
 
 const PieContainer = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   align-items: center;
   justify-content: center;
-  padding: 20px;
 `;
-
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: 420;
+  color: ${({ theme }) => theme.text_primary};
+  padding-bottom: 40px;
+`;
 const Piechart = ({ day, id }) => {
   const [state, setState] = useState([]);
   const [time, setTime] = useState([]);
@@ -22,13 +27,13 @@ const Piechart = ({ day, id }) => {
     let data;
     if (day) {
       data = { date: new Date().toISOString(), empid: id };
-      setChartTitle("Today's Stats");
+      setChartTitle("Today's Statistics");
     } else {
       const currentDate = new Date(); // Current date and time
       currentDate.setDate(currentDate.getDate() - 1); // Subtract 1 day from the current date
       const previousDateISOString = currentDate.toISOString(); // Convert the previous date to ISO string format
       data = { date: previousDateISOString, empid: id };
-      setChartTitle("Yesterday's Stats");
+      setChartTitle("Yesterday's Statistics");
     }
     console.log(data);
     await pieData(data)
@@ -49,13 +54,13 @@ const Piechart = ({ day, id }) => {
 
   return (
     <PieContainer>
+      <Title>{chartTitle}</Title>
       <Chart
         type="pie"
         width={450}
         height={350}
         series={time}
         options={{
-          title: { text: chartTitle },
           noData: { text: "Empty Data" },
           labels: state,
         }}
