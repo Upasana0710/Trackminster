@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { createTask } from "../api/index";
 
 const AddContainer = styled.div`
   display: flex;
@@ -111,12 +112,13 @@ const ButtonContainer = styled.div`
   background: ${({ theme }) => theme.primary + 99};
   color: ${({ theme }) => theme.text_primary};
   font-size: 14px;
-  height: 28px;
+  height: 36px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+  cursor: pointer;
 `;
 
 const AddTask = () => {
@@ -153,12 +155,18 @@ const AddTask = () => {
     return months;
   };
 
-  const [year, setYear] = React.useState(currentYear.toString());
-  const [month, setMonth] = React.useState(currentMonth.toString());
-  const [date, setDate] = React.useState(currentDay.toString());
-  const [hours, setHours] = React.useState("00");
-  const [minutes, setMinutes] = React.useState("00");
-  const [seconds, setSeconds] = React.useState("00");
+  const [year, setYear] = useState(currentYear.toString());
+  const [month, setMonth] = useState(currentMonth.toString());
+  const [date, setDate] = useState(currentDay.toString());
+  const [hours, setHours] = useState("00");
+  const [minutes, setMinutes] = useState("00");
+  const [seconds, setSeconds] = useState("00");
+  const [task, setTask] = useState({
+    desc: "",
+    type: "",
+    startTime: "",
+    time: 0,
+  });
 
   const renderTimeOptions = (range) => {
     const options = [];
@@ -196,6 +204,39 @@ const AddTask = () => {
     return dates;
   };
 
+  const handleRegisterClick = async () => {
+    const selectedYear = parseInt(year, 10);
+    const selectedMonth = parseInt(month, 10);
+    const selectedDate = parseInt(date, 10);
+    const selectedHours = parseInt(hours, 10);
+    const selectedMinutes = parseInt(minutes, 10);
+    const selectedSeconds = parseInt(seconds, 10);
+
+    const timestamp = new Date(
+      selectedYear,
+      selectedMonth - 1,
+      selectedDate,
+      selectedHours + 5,
+      selectedMinutes + 30,
+      selectedSeconds,
+    ).toISOString();
+    task.startTime = timestamp.toString();
+    setTask({ ...task, startTime: timestamp.toString() });
+    setTask({ ...task, time: Number(task.time) });
+    const token = localStorage.getItem("user_info");
+    await createTask(task, token)
+      .then(() => {
+        setTask({ desc: "", type: "", startTime: "", time: 0 });
+        setYear(currentYear.toString());
+        setMonth(currentMonth.toString());
+        setDate(currentDate.toString());
+        setHours("00");
+        setMinutes("00");
+        setSeconds("00");
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <AddContainer>
       <Card>
@@ -203,14 +244,22 @@ const AddTask = () => {
           <Heading>Add Task</Heading>
           <Fields>
             <Field>
-              <TextArea rows="5" placeholder="Description" />
+              <TextArea
+                rows="5"
+                placeholder="Description"
+                value={task.desc}
+                onChange={(e) => setTask({ ...task, desc: e.target.value })}
+              />
             </Field>
             <Field>
-              <Select>
-                <Option>Type</Option>
-                <Option>Break</Option>
-                <Option>Meeting</Option>
-                <Option>Work</Option>
+              <Select
+                value={task.type}
+                onChange={(e) => setTask({ ...task, type: e.target.value })}
+              >
+                <Option value="">Type</Option>
+                <Option value="Break">Break</Option>
+                <Option value="Meeting">Meeting</Option>
+                <Option value="Work">Work</Option>
               </Select>
             </Field>
             <FlexContainer>
@@ -250,7 +299,7 @@ const AddTask = () => {
                   value={minutes}
                   onChange={(e) => setMinutes(e.target.value)}
                 >
-                  {renderTimeOptions(60, "Min")}
+                  {renderTimeOptions(60)}
                 </Select>
               </Field>
               <Field>
@@ -258,14 +307,26 @@ const AddTask = () => {
                   value={seconds}
                   onChange={(e) => setSeconds(e.target.value)}
                 >
-                  {renderTimeOptions(60, "Sec")}
+                  {renderTimeOptions(60)}
                 </Select>
               </Field>
             </FlexContainer>
             <Field>
-              <Input type="number" min="0" max="60" placeholder="Time in min" />
+              <Input
+                type="number"
+                min="0"
+                max="60"
+                placeholder="Time in min"
+                value={task.time === 0 ? "" : task.time}
+                onChange={(e) =>
+                  // eslint-disable-next-line radix
+                  setTask({ ...task, time: parseInt(e.target.value) })
+                }
+              />
             </Field>
-            <ButtonContainer>Register</ButtonContainer>
+            <ButtonContainer onClick={handleRegisterClick}>
+              Register
+            </ButtonContainer>
           </Fields>
         </InnerCard>
       </Card>
