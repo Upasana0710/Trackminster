@@ -42,3 +42,12 @@ export const getUser = async (req, res) => {
     console.log(error);
   }
 };
+
+export const getEmployees = async (req, res) => {
+  try {
+    const users = await User.find({ role: 'Employee' }); // Filter users by role "Employee"
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
