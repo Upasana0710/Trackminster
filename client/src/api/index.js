@@ -5,6 +5,11 @@ const API = axios.create({ baseURL: "http://localhost:5000" });
 // auth
 export const login = (user) => API.post("/user/auth", user);
 
+// employee list
+export const getEmployees = () => API.get("/user/employees");
+// employee by ID
+export const getEmployee = (id) => API.get(`/user/${id}`);
+
 // task creation
 export const createTask = (task, token) =>
   API.post(
