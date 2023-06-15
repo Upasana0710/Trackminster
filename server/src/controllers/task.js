@@ -9,7 +9,6 @@ export const createTask = async (req, res) => {
     await User.findByIdAndUpdate(req.user, { $push: { tasks: newTask._id } }, { new: true });
     res.status(200).json(newTask);
   } catch (error) {
-    console.log(error);
     res.json({ message: error.message });
   }
 };
@@ -43,7 +42,6 @@ export const pieData = async (req, res) => {
 
     res.json(responseData);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -83,7 +81,6 @@ export const barData = async (req, res) => {
 
     res.json(responseData);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
