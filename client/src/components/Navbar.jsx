@@ -26,8 +26,8 @@ const Button = styled.div`
   background: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.primary};
   border: 1px solid ${({ theme }) => theme.primary};
-  border-radius: 16px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 10px 18px;
   cursor: pointer;
   &:hover {
     background: ${({ theme }) => theme.primary};

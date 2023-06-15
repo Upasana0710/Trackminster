@@ -10,7 +10,7 @@ const Container = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #000000a7;
+  background-color: ${({ theme }) => theme.bgLight};
   display: flex;
   align-items: center;
   justify-content: center;
