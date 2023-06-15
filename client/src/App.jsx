@@ -7,9 +7,10 @@ import Navbar from "./components/Navbar";
 import Menu from "./components/Menu";
 import Login from "./components/Login";
 import AddEmployee from "./pages/AddEmployee";
-import Dashboard from "./pages/Dashboard";
+import DashboardAdmin from "./pages/DashboardAdmin";
 import DashboardEmp from "./pages/DashboardEmp";
 import AddTask from "./pages/AddTask";
+import Employee from "./pages/Employee";
 
 const Trackminster = styled.div`
   display: flex;
@@ -25,14 +26,17 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; /* Changed height to min-height */
   background: ${({ theme }) => theme.bgLight};
   overflow-x: hidden;
 `;
+
 const Pages = styled.div`
+  flex: 1; /* Added flex: 1 to make the Pages component take remaining space */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 220px;
 `;
 
 function App() {
@@ -56,7 +60,7 @@ function App() {
                     exact
                     element={
                       currentUser?.role === "Admin" ? (
-                        <Dashboard />
+                        <DashboardAdmin />
                       ) : (
                         <DashboardEmp />
                       )
@@ -64,6 +68,7 @@ function App() {
                   />
                   <Route path="/addemployee" exact element={<AddEmployee />} />
                   <Route path="/addtask" exact element={<AddTask />} />
+                  <Route path="/employee/:id" exact element={<Employee />} />
                 </Routes>
               </Pages>
             </Container>
