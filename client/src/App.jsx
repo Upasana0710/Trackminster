@@ -16,61 +16,66 @@ const Trackminster = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 100vh;
   background: ${({ theme }) => theme.bgLight};
-  overflow-x: hidden;
   overflow-y: hidden;
+  overflow-x: hidden;
 `;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh; /* Changed height to min-height */
-  background: ${({ theme }) => theme.bgLight};
-  overflow-x: hidden;
-`;
-
-const Pages = styled.div`
-  flex: 1; /* Added flex: 1 to make the Pages component take remaining space */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 220px;
+  flex: 3;
 `;
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(true);
   const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     console.log(currentUser);
   });
+  useEffect(() => {
+    const resize = () => {
+      if (window.innerWidth < 1110) {
+        setMenuOpen(false);
+      } else {
+        setMenuOpen(true);
+      }
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <BrowserRouter>
         {currentUser ? (
           <Trackminster>
-            <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+            {menuOpen && (
+              <Menu
+                setMenuOpen={setMenuOpen}
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+              />
+            )}
             <Container>
-              <Navbar />
-              <Pages>
-                <Routes>
-                  <Route
-                    path="/"
-                    exact
-                    element={
-                      currentUser?.role === "Admin" ? (
-                        <DashboardAdmin />
-                      ) : (
-                        <DashboardEmp />
-                      )
-                    }
-                  />
-                  <Route path="/addemployee" exact element={<AddEmployee />} />
-                  <Route path="/addtask" exact element={<AddTask />} />
-                  <Route path="/employee/:id" exact element={<Employee />} />
-                </Routes>
-              </Pages>
+              <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+              <Routes>
+                <Route
+                  path="/"
+                  exact
+                  element={
+                    currentUser?.role === "Admin" ? (
+                      <DashboardAdmin />
+                    ) : (
+                      <DashboardEmp />
+                    )
+                  }
+                />
+                <Route path="/addemployee" exact element={<AddEmployee />} />
+                <Route path="/addtask" exact element={<AddTask />} />
+                <Route path="/employee/:id" exact element={<Employee />} />
+              </Routes>
             </Container>
           </Trackminster>
         ) : (
