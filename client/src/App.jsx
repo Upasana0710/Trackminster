@@ -10,7 +10,7 @@ import AddEmployee from "./pages/AddEmployee";
 import DashboardAdmin from "./pages/DashboardAdmin";
 import DashboardEmp from "./pages/DashboardEmp";
 import AddTask from "./pages/AddTask";
-import Employee from "./pages/Employee";
+import Profile from "./pages/Profile";
 
 const Trackminster = styled.div`
   display: flex;
@@ -74,7 +74,9 @@ function App() {
                 />
                 <Route path="/addemployee" exact element={<AddEmployee />} />
                 <Route path="/addtask" exact element={<AddTask />} />
-                <Route path="/employee/:id" exact element={<Employee />} />
+                {currentUser?.role === "Admin" && (
+                  <Route path="/profile/:id" exact element={<Profile />} />
+                )}
               </Routes>
             </Container>
           </Trackminster>
