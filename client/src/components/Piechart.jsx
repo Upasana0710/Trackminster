@@ -9,6 +9,12 @@ const PieContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
+  background: ${({ theme }) => theme.bg};
+  padding: 10px;
+  border-radius: 8px;
+  @media (max-width: 768px) {
+    width: 400px;
+  }
 `;
 const Title = styled.div`
   font-size: 20px;
@@ -57,7 +63,7 @@ const Piechart = ({ day, id }) => {
       <Title>{chartTitle}</Title>
       <Chart
         type="pie"
-        width={450}
+        width={420}
         height={350}
         series={time}
         options={{

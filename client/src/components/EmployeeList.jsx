@@ -12,7 +12,7 @@ const Heading = styled.h1`
   text-align: start;
 `;
 const Table = styled.h1`
-  width: 100%;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;

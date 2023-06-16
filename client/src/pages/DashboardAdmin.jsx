@@ -4,18 +4,18 @@ import { useSelector } from "react-redux";
 import EmployeeList from "../components/EmployeeList";
 
 const DashContainer = styled.div`
+  padding: 20px 30px;
+  height: 100%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100vh;
+  gap: 20px;
   align-items: center;
-  justify-content: flex-start;
-  padding-left: 0px;
-  padding-top: 60px;
 `;
 const WelcomeHeading = styled.h1`
   font-size: 24px;
   padding: 10px 0px;
+  text-align: center;
   color: ${({ theme }) => theme.text_primary};
 `;
 const Dashboard = () => {

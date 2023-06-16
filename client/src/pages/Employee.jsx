@@ -6,36 +6,43 @@ import Piechart from "../components/Piechart";
 import BarGraph from "../components/BarGraph";
 
 const ProfileContainer = styled.div`
+  padding: 20px 30px;
+  padding-bottom: 200px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
   align-items: center;
-  justify-content: flex-start;
-  padding-left: 0px;
-  padding-top: 60px;
+  flex-direction: column;
+  gap: 20px;
+  @media (max-width: 768px) {
+    padding: 6px 10px;
+    justify-content: center;
+  }
 `;
 const Heading = styled.div`
   color: ${({ theme }) => theme.primary};
   font-size: 24px;
   font-weight: 550;
-  padding-bottom: 40px;
+  padding-bottom: 10px;
   padding-top: 40px;
   width: 100%;
   text-align: center;
 `;
 const Table = styled.h1`
-  width: 100%;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 20px;
+  background: ${({ theme }) => theme.bg};
+  border-radius: 8px;
 `;
 const Row = styled.div`
   height: 60px;
   width: 400px;
   box-sizing: border-box;
-  background: ${({ theme }) => theme.bgLight};
   border-bottom: 1px solid ${({ theme }) => theme.text_primary};
   color: ${({ theme }) => theme.text_secondary};
   display: flex;
@@ -65,6 +72,11 @@ const PieContainer = styled.div`
   justify-content: center;
   gap: 60px;
   padding: 40px 0px;
+  @media (max-width: 768px) {
+    padding: 6px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const Employee = () => {

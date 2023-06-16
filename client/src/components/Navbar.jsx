@@ -1,26 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton } from "@mui/material";
 import { logout } from "../redux/userSlice";
 
 const Navcontainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  height: 60px;
-  padding: 16px 40px;
-  align-items: center;
-  box-sizing: border-box;
-  color: ${({ theme }) => theme.text_primary};
-  gap: 30px;
-  background: ${({ theme }) => theme.bg};
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 99;
-  @media (max-width: 768px) {
-    padding: 16px;
-  }
+display: flex;
+justify-content: space-between;
+width: 100%;
+padding: 16px 40px;
+align-items: center;
+box-sizing: border-box;
+color: ${({ theme }) => theme.text_primary};
+gap: 30px;
+background: ${({ theme }) => theme.bg}
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5.7px);
+-webkit-backdrop-filter: blur(5.7px);
+@media (max-width: 768px) {
+  padding: 16px;
+}
 `;
 const Button = styled.div`
   background: ${({ theme }) => theme.bg};
@@ -42,8 +43,11 @@ const Welcome = styled.div`
   font-weight: 550;
   color: ${({ theme }) => theme.text_primary};
 `;
+const IcoButton = styled(IconButton)`
+  color: ${({ theme }) => theme.text_secondary} !important;
+`;
 const Content = styled.div``;
-const Navbar = () => {
+const Navbar = ({ menuOpen, setMenuOpen }) => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
@@ -51,6 +55,9 @@ const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
   return (
     <Navcontainer>
+      <IcoButton onClick={() => setMenuOpen(!menuOpen)}>
+        <MenuIcon />
+      </IcoButton>
       <Welcome>{currentUser?.username}</Welcome>
       <Button>
         <Content onClick={handleLogout}>Logout</Content>

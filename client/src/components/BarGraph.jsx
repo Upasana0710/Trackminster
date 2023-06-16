@@ -6,11 +6,16 @@ import { barData } from "../api/index";
 const BarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: fit-content;
   height: fit-content;
   align-items: center;
   justify-content: center;
   padding: 40px;
+  background: ${({ theme }) => theme.bg};
+  border-radius: 8px;
+  @media (max-width: 768px) {
+    padding: 6px 10px;
+  }
 `;
 
 const Title = styled.div`
@@ -58,7 +63,7 @@ const BarGraph = ({ id }) => {
         height={500}
         series={[
           {
-            name: "Social Media Subscriber",
+            name: "Time",
             data: time,
           },
         ]}
