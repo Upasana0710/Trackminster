@@ -5,20 +5,21 @@ import Piechart from "../components/Piechart";
 import BarGraph from "../components/BarGraph";
 
 const DashContainer = styled.div`
+  padding: 20px 30px;
+  height: 100%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 20px;
   align-items: center;
-  justify-content: center;
-  padding-left: 220px;
-  padding-top: 60px;
 `;
 const PieContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
-  padding: 40px 0px;
+  padding: 20px 0px;
+  gap: 18px;
 `;
 const WelcomeHeading = styled.h1`
   font-size: 24px;
