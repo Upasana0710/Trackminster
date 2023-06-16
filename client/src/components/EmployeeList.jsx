@@ -87,7 +87,7 @@ const UserList = () => {
         <Topic style={{ width: "180px" }}>Date of Joining</Topic>
       </TableHead>
       {employees.map((employee) => (
-        <RowLink to={`/employee/${employee._id}`} key={employee.id}>
+        <RowLink to={`/profile/${employee._id}`} key={employee.id}>
           <Row>
             <Content style={{ width: "150px" }}>{employee.name}</Content>
             <Content style={{ width: "150px" }}>{employee.username}</Content>
