@@ -25,7 +25,7 @@ const Heading = styled.div`
   font-size: 24px;
   font-weight: 550;
   padding-bottom: 10px;
-  padding-top: 40px;
+  padding-top: 20px;
   width: 100%;
   text-align: center;
 `;
@@ -48,7 +48,7 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 `;
 const Left = styled.div`
