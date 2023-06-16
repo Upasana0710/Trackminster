@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
 import { logout } from "../redux/userSlice";
 
@@ -28,8 +29,11 @@ const Button = styled.div`
   color: ${({ theme }) => theme.primary};
   border: 1px solid ${({ theme }) => theme.primary};
   border-radius: 8px;
-  padding: 10px 18px;
+  padding: 10px 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   &:hover {
     background: ${({ theme }) => theme.primary};
     color: ${({ theme }) => theme.bg};
@@ -37,6 +41,11 @@ const Button = styled.div`
   @media (max-width: 768px) {
     padding: 16px;
   }
+`;
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 28px;
 `;
 const Welcome = styled.div`
   font-size: 20px;
@@ -58,10 +67,13 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
       <IcoButton onClick={() => setMenuOpen(!menuOpen)}>
         <MenuIcon />
       </IcoButton>
-      <Welcome>{currentUser?.username}</Welcome>
-      <Button>
-        <Content onClick={handleLogout}>Logout</Content>
-      </Button>
+      <Container>
+        <Welcome>{currentUser?.username}</Welcome>
+        <Button>
+          <LogoutIcon style={{ fontSize: "16px" }} />
+          <Content onClick={handleLogout}>Logout</Content>
+        </Button>
+      </Container>
     </Navcontainer>
   );
 };

@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Modal } from "@mui/material";
 import styled from "styled-components";
+import RememberMeIcon from "@mui/icons-material/RememberMe";
+import FingerprintIcon from "@mui/icons-material/Fingerprint";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import PasswordTwoToneIcon from "@mui/icons-material/PasswordTwoTone";
+import CallIcon from "@mui/icons-material/Call";
+import EventSeatIcon from "@mui/icons-material/EventSeat";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { login } from "../api";
 
 const Container = styled.div`
@@ -49,18 +56,38 @@ const Fields = styled.div`
 `;
 const Field = styled.div`
   width: 90%;
-  height: 28px;
-  border-radius: 8px;
+  height: 32px;
+  color: ${({ theme }) => theme.text_secondary};
+  display: flex;
+  align-items: center;
+  padding: 2px 6px;
+  padding-left: 0px;
+`;
+const Icon = styled.div`
+  width: 20px;
+  height: 32px;
+  border-radius: 8px 0px 0px 8px;
   border: 1px solid ${({ theme }) => theme.text_secondary + 99};
   color: ${({ theme }) => theme.text_secondary};
   display: flex;
   align-items: center;
   padding: 2px 6px;
 `;
-const FlexContainer = styled.div`
-  width: 94%;
+const Input = styled.div`
+  width: 100%;
+  height: 32px;
+  border-radius: 0px 8px 8px 0px;
+  border: 1px solid ${({ theme }) => theme.text_secondary + 99};
+  border-left: none;
+  color: ${({ theme }) => theme.text_secondary};
   display: flex;
-  gap: 12px;
+  align-items: center;
+  padding: 2px 6px;
+`;
+const FlexContainer = styled.div`
+  width: 92%;
+  display: flex;
+  gap: 4px;
   justify-content: space-between;
 `;
 const ButtonContainer = styled.div`
@@ -116,122 +143,159 @@ const AddEmployee = () => {
               <Role>Employee Details</Role>
               <Fields>
                 <Field>
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    style={{
-                      background: "inherit",
-                      color: "inherit",
-                      outline: "none",
-                      border: "none",
-                      width: "100%",
-                    }}
-                    value={user.name}
-                    onChange={(e) => setUser({ ...user, name: e.target.value })}
-                  />
+                  <Icon>
+                    <RememberMeIcon style={{ fontSize: "18px" }} />
+                  </Icon>
+                  <Input>
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.name}
+                      onChange={(e) =>
+                        setUser({ ...user, name: e.target.value })
+                      }
+                    />
+                  </Input>
                 </Field>
                 <Field>
-                  <input
-                    type="text"
-                    placeholder="Userame"
-                    style={{
-                      background: "inherit",
-                      color: "inherit",
-                      outline: "none",
-                      border: "none",
-                      width: "100%",
-                    }}
-                    value={user.username}
-                    onChange={(e) =>
-                      setUser({ ...user, username: e.target.value })
-                    }
-                  />
+                  <Icon>
+                    <FingerprintIcon style={{ fontSize: "18px" }} />
+                  </Icon>
+                  <Input>
+                    <input
+                      type="text"
+                      placeholder="Userame"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.username}
+                      onChange={(e) =>
+                        setUser({ ...user, username: e.target.value })
+                      }
+                    />
+                  </Input>
                 </Field>
                 <Field>
-                  <input
-                    type="text"
-                    placeholder="Email"
-                    style={{
-                      background: "inherit",
-                      color: "inherit",
-                      outline: "none",
-                      border: "none",
-                      width: "100%",
-                    }}
-                    value={user.email}
-                    onChange={(e) =>
-                      setUser({ ...user, email: e.target.value })
-                    }
-                  />
+                  <Icon>
+                    <EmailOutlinedIcon style={{ fontSize: "18px" }} />
+                  </Icon>
+                  <Input>
+                    <input
+                      type="text"
+                      placeholder="Email"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.email}
+                      onChange={(e) =>
+                        setUser({ ...user, email: e.target.value })
+                      }
+                    />
+                  </Input>
                 </Field>
                 <Field>
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    style={{
-                      background: "inherit",
-                      color: "inherit",
-                      outline: "none",
-                      border: "none",
-                      width: "100%",
-                    }}
-                    value={user.password}
-                    onChange={(e) =>
-                      setUser({ ...user, password: e.target.value })
-                    }
-                  />
+                  <Icon>
+                    <PasswordTwoToneIcon style={{ fontSize: "18px" }} />
+                  </Icon>
+                  <Input>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.password}
+                      onChange={(e) =>
+                        setUser({ ...user, password: e.target.value })
+                      }
+                    />
+                  </Input>
                 </Field>
                 <Field>
-                  <input
-                    type="text"
-                    placeholder="Contact"
-                    style={{
-                      background: "inherit",
-                      color: "inherit",
-                      outline: "none",
-                      border: "none",
-                      width: "100%",
-                    }}
-                    value={user.contact}
-                    onChange={(e) =>
-                      setUser({ ...user, contact: e.target.value })
-                    }
-                  />
+                  <Icon>
+                    <CallIcon style={{ fontSize: "18px" }} />
+                  </Icon>
+                  <Input>
+                    <input
+                      type="text"
+                      placeholder="Contact"
+                      style={{
+                        background: "inherit",
+                        color: "inherit",
+                        outline: "none",
+                        border: "none",
+                        width: "100%",
+                      }}
+                      value={user.contact}
+                      onChange={(e) =>
+                        setUser({ ...user, contact: e.target.value })
+                      }
+                    />
+                  </Input>
                 </Field>
                 <FlexContainer>
                   <Field>
-                    <input
-                      type="text"
-                      placeholder="Department"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.department}
-                      onChange={(e) =>
-                        setUser({ ...user, department: e.target.value })
-                      }
-                    />
+                    <Icon>
+                      <EventSeatIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="text"
+                        placeholder="Department"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.department}
+                        onChange={(e) =>
+                          setUser({ ...user, department: e.target.value })
+                        }
+                      />
+                    </Input>
                   </Field>
                   <Field>
-                    <input
-                      type="text"
-                      placeholder="Date of Joining"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.doj}
-                      onChange={(e) =>
-                        setUser({ ...user, doj: e.target.value })
-                      }
-                    />
+                    <Icon>
+                      <CalendarMonthOutlinedIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="text"
+                        placeholder="Date of Joining"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.doj}
+                        onChange={(e) =>
+                          setUser({ ...user, doj: e.target.value })
+                        }
+                      />
+                    </Input>
                   </Field>
                 </FlexContainer>
                 <ButtonContainer onClick={() => handleSubmit()}>

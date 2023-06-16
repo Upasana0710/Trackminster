@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import FingerprintIcon from "@mui/icons-material/Fingerprint";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import PasswordTwoToneIcon from "@mui/icons-material/PasswordTwoTone";
 import { login } from "../api";
 import { loginSuccess } from "../redux/userSlice";
 
@@ -35,7 +38,7 @@ const ToggleContainer = styled.div`
   border-radius: 8px 8px 0px 0px;
   border-bottom: 1px solid ${({ theme }) => theme.primary};
   display: flex;
-  height: 46px;
+  height: 50px;
   align-items: center;
   cursor: pointer;
 `;
@@ -67,20 +70,40 @@ const Fields = styled.div`
 `;
 const Field = styled.div`
   width: 90%;
-  height: 28px;
-  border-radius: 8px;
+  height: 32px;
+  color: ${({ theme }) => theme.text_secondary};
+  display: flex;
+  align-items: center;
+  padding: 2px 6px;
+  padding-left: 0px;
+`;
+const Icon = styled.div`
+  width: 20px;
+  height: 32px;
+  border-radius: 8px 0px 0px 8px;
   border: 1px solid ${({ theme }) => theme.text_secondary + 99};
   color: ${({ theme }) => theme.text_secondary};
   display: flex;
   align-items: center;
   padding: 2px 6px;
 `;
+const Input = styled.div`
+  width: 100%;
+  height: 32px;
+  border-radius: 0px 8px 8px 0px;
+  border: 1px solid ${({ theme }) => theme.text_secondary + 99};
+  border-left: none;
+  color: ${({ theme }) => theme.text_secondary};
+  display: flex;
+  align-items: center;
+  padding: 2px 6px;
+`;
 const ButtonContainer = styled.div`
-  width: 94%;
+  width: 92%;
   background: ${({ theme }) => theme.primary + 99};
   color: ${({ theme }) => theme.text_primary};
   font-size: 14px;
-  height: 28px;
+  height: 32px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
@@ -159,55 +182,70 @@ const Login = () => {
               isNew ? (
                 <Fields>
                   <Field>
-                    <input
-                      type="text"
-                      placeholder="Userame"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.username}
-                      onChange={(e) =>
-                        setUser({ ...user, username: e.target.value })
-                      }
-                    />
+                    <Icon>
+                      <FingerprintIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="text"
+                        placeholder="Userame"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.username}
+                        onChange={(e) =>
+                          setUser({ ...user, username: e.target.value })
+                        }
+                      />
+                    </Input>
                   </Field>
                   <Field>
-                    <input
-                      type="text"
-                      placeholder="Email"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.email}
-                      onChange={(e) =>
-                        setUser({ ...user, email: e.target.value })
-                      }
-                    />
+                    <Icon>
+                      <EmailOutlinedIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.email}
+                        onChange={(e) =>
+                          setUser({ ...user, email: e.target.value })
+                        }
+                      />
+                    </Input>
                   </Field>
                   <Field>
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.password}
-                      onChange={(e) =>
-                        setUser({ ...user, password: e.target.value })
-                      }
-                    />
+                    <Icon>
+                      <PasswordTwoToneIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.password}
+                        onChange={(e) =>
+                          setUser({ ...user, password: e.target.value })
+                        }
+                      />
+                    </Input>
                   </Field>
                   <ButtonContainer onClick={() => handleSubmit()}>
                     Sign Up
@@ -219,6 +257,64 @@ const Login = () => {
               ) : (
                 <Fields>
                   <Field>
+                    <Icon>
+                      <FingerprintIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="text"
+                        placeholder="Userame"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.username}
+                        onChange={(e) =>
+                          setUser({ ...user, username: e.target.value })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <Field>
+                    <Icon>
+                      <PasswordTwoToneIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.password}
+                        onChange={(e) =>
+                          setUser({ ...user, password: e.target.value })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <ButtonContainer onClick={() => handleSubmit()}>
+                    Sign In
+                  </ButtonContainer>
+                  <Message onClick={() => setIsNew(!isNew)}>
+                    Do not have an account? Sign Up
+                  </Message>
+                </Fields>
+              )
+            ) : (
+              <Fields>
+                <Field>
+                  <Icon>
+                    <FingerprintIcon style={{ fontSize: "18px" }} />
+                  </Icon>
+                  <Input>
                     <input
                       type="text"
                       placeholder="Userame"
@@ -234,8 +330,13 @@ const Login = () => {
                         setUser({ ...user, username: e.target.value })
                       }
                     />
-                  </Field>
-                  <Field>
+                  </Input>
+                </Field>
+                <Field>
+                  <Icon>
+                    <PasswordTwoToneIcon style={{ fontSize: "18px" }} />
+                  </Icon>
+                  <Input>
                     <input
                       type="password"
                       placeholder="Password"
@@ -251,50 +352,7 @@ const Login = () => {
                         setUser({ ...user, password: e.target.value })
                       }
                     />
-                  </Field>
-                  <ButtonContainer onClick={() => handleSubmit()}>
-                    Sign In
-                  </ButtonContainer>
-                  <Message onClick={() => setIsNew(false)}>
-                    Do not have an account? Sign Up
-                  </Message>
-                </Fields>
-              )
-            ) : (
-              <Fields>
-                <Field>
-                  <input
-                    type="text"
-                    placeholder="Userame"
-                    style={{
-                      background: "inherit",
-                      color: "inherit",
-                      outline: "none",
-                      border: "none",
-                      width: "100%",
-                    }}
-                    value={user.username}
-                    onChange={(e) =>
-                      setUser({ ...user, username: e.target.value })
-                    }
-                  />
-                </Field>
-                <Field>
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    style={{
-                      background: "inherit",
-                      color: "inherit",
-                      outline: "none",
-                      border: "none",
-                      width: "100%",
-                    }}
-                    value={user.password}
-                    onChange={(e) =>
-                      setUser({ ...user, password: e.target.value })
-                    }
-                  />
+                  </Input>
                 </Field>
                 <ButtonContainer onClick={() => handleSubmit()}>
                   Sign In
