@@ -26,25 +26,40 @@ const Title = styled.div`
 `;
 
 const BarGraph = ({ id }) => {
-  const [state, setState] = useState([]);
-  const [time, setTime] = useState([]);
+  const [meeting, setMeeting] = useState([]);
+  const [work, setWork] = useState([]);
+  const [breakT, setBreakT] = useState([]);
 
   const fetchData = async () => {
-    const type = [];
-    const timeD = [];
     const data = { empid: id };
 
     try {
       const response = await barData(data);
-      const { data: responseData } = response;
+      const responseData = response.data;
+
+      const meetingData = [];
+      const workData = [];
+      const breakData = [];
 
       for (let i = 0; i < responseData.length; i++) {
-        type.push(responseData[i].type);
-        timeD.push(responseData[i].time);
+        const dayData = responseData[i];
+
+        for (let j = 0; j < dayData.length; j++) {
+          const task = dayData[j];
+
+          if (task.type === "Meeting") {
+            meetingData.push(task.time);
+          } else if (task.type === "Work") {
+            workData.push(task.time);
+          } else if (task.type === "Break") {
+            breakData.push(task.time);
+          }
+        }
       }
 
-      setState(type);
-      setTime(timeD);
+      setMeeting(meetingData);
+      setWork(workData);
+      setBreakT(breakData);
     } catch (error) {
       console.log(error);
     }
@@ -54,63 +69,51 @@ const BarGraph = ({ id }) => {
     fetchData();
   }, []);
 
+  const chartOptions = {
+    colors: ["#00e396", "#feb019", "#008ffb"],
+    chart: {
+      id: "basic-bar",
+    },
+    xaxis: {
+      categories: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+    },
+    style: {
+      colors: "#ac9ffc", // Set the text color to white
+    },
+  };
+
+  const chartSeries = [
+    {
+      name: "Meeting",
+      data: meeting,
+    },
+    {
+      name: "Work",
+      data: work,
+    },
+    {
+      name: "Break",
+      data: breakT,
+    },
+  ];
+
   return (
     <BarContainer>
       <Title>Weekly Statistics</Title>
       <Chart
+        options={chartOptions}
+        series={chartSeries}
         type="bar"
         width={800}
         height={500}
-        series={[
-          {
-            name: "Time",
-            data: time,
-          },
-        ]}
-        options={{
-          colors: ["#8370FE"],
-          theme: { mode: "light" },
-
-          xaxis: {
-            tickPlacement: "on",
-            categories: state,
-            labels: {
-              style: { fontSize: "14px", color: "#ac9ffc" },
-            },
-            title: {
-              text: "Type of Task",
-              style: { color: "#8370FE", fontSize: 18 },
-            },
-          },
-
-          yaxis: {
-            labels: {
-              formatter: (val) => {
-                return `${val}`;
-              },
-              style: { fontSize: "14px", color: "#ac9ffc" },
-            },
-            title: {
-              text: "Time spent",
-              style: { color: "#8370FE", fontSize: 18 },
-            },
-          },
-
-          legend: {
-            show: true,
-            position: "right",
-          },
-
-          dataLabels: {
-            formatter: (val) => {
-              return `${val}`;
-            },
-            style: {
-              colors: ["#f4f4f4"],
-              fontSize: 15,
-            },
-          },
-        }}
       />
     </BarContainer>
   );
