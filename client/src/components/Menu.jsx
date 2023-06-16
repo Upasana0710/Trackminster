@@ -2,23 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import CloseRounded from "@mui/icons-material/CloseRounded";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import logo from "../images/Logo.png";
 
 const MenuContainer = styled.div`
-  width: 220px;
+  flex: 0.5;
   flex-direction: column;
   height: 100vh;
   display: flex;
-  padding: 80px 0px;
   box-sizing: border-box;
   align-items: flex-start;
   background-color: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text_primary};
-  position: fixed;
-  left: 0;
-  z-index: 99;
   @media (max-width: 1100px) {
     position: fixed;
     z-index: 1000;
@@ -46,11 +44,45 @@ const Elements = styled.div`
 const NavText = styled.div`
   padding: 12px 0px;
 `;
+const Close = styled.div`
+  display: none;
+  @media (max-width: 1100px) {
+    display: block;
+  }
+`;
+const Logo = styled.div`
+  color: ${({ theme }) => theme.primary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 18px 8px;
+  font-weight: 600;
+  font-size: 18px;
+  width: 100%;
+`;
+
+const Image = styled.img`
+  height: 40px;
+  padding-right: 10px;
+`;
 // eslint-disable-next-line react/prop-types
-const Menu = ({ darkMode, setDarkMode }) => {
+const Menu = ({ setMenuOpen, darkMode, setDarkMode }) => {
   const { currentUser } = useSelector((state) => state.user);
   return (
+    // eslint-disable-next-line react/jsx-filename-extension
     <MenuContainer>
+      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <Logo>
+          <Image src={logo} />
+          TRACKMINSTER
+        </Logo>
+      </Link>
+      <Close>
+        <CloseRounded
+          onClick={() => setMenuOpen(false)}
+          style={{ cursor: "pointer" }}
+        />
+      </Close>
       {currentUser?.role === "Admin" && (
         <Link
           to="/addemployee"
