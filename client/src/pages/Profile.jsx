@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import styled from "styled-components";
+import EditIcon from "@mui/icons-material/Edit";
+import { useSelector } from "react-redux";
 import { getEmployee } from "../api/index";
 import Piechart from "../components/Piechart";
 import BarGraph from "../components/BarGraph";
@@ -15,10 +17,18 @@ const ProfileContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  position: relative;
   @media (max-width: 768px) {
     padding: 6px 10px;
     justify-content: center;
   }
+`;
+const Icon = styled.div`
+  color: ${({ theme }) => theme.primary};
+  cursor: pointer;
+  position: absolute;
+  right: 40px;
+  top: 40px;
 `;
 const Heading = styled.div`
   color: ${({ theme }) => theme.primary};
@@ -82,6 +92,7 @@ const PieContainer = styled.div`
 const Employee = () => {
   const { id } = useParams();
   const [profile, setProfile] = useState();
+  const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     const fetchData = async () => {
       await getEmployee(id).then((res) => {
@@ -93,6 +104,13 @@ const Employee = () => {
   }, [id]);
   return (
     <ProfileContainer>
+      {currentUser?.role === "Employee" && (
+        <Link to="/employeedetails">
+          <Icon>
+            <EditIcon />
+          </Icon>
+        </Link>
+      )}
       <Heading>{profile?.name}</Heading>
       <Table>
         <Row>
