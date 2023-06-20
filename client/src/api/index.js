@@ -10,6 +10,10 @@ export const getEmployees = () => API.get("/user/employees");
 // employee by ID
 export const getEmployee = (id) => API.get(`/user/${id}`);
 
+// update employee
+export const updateUser = (id, updatedUser) =>
+  API.patch(`/user/${id}`, updatedUser);
+
 // task creation
 export const createTask = (task, token) =>
   API.post(
