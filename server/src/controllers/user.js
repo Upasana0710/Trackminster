@@ -36,7 +36,7 @@ export const authenticate = async (req, res) => {
 export const getUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate('tasks');
     res.status(200).json(user);
   } catch (error) {
     console.log(error);
@@ -61,5 +61,15 @@ export const updateUser = async (req, res) => {
     res.json(updatedUser);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getTasks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).populate('tasks'); // Filter users by role "Employee"
+    res.status(200).json(user.tasks);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
