@@ -51,3 +51,15 @@ export const getEmployees = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const updateUser = async (req, res) => {
+  const user = req.body;
+  const { id } = req.params;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(id, { ...user, id }, { new: true });
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.log(error);
+  }
+};
