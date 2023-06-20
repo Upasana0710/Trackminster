@@ -228,12 +228,12 @@ const AddTask = () => {
     await createTask(task, token)
       .then(() => {
         setTask({ desc: "", type: "", startTime: "", time: 0 });
-        setYear(currentYear.toString());
-        setMonth(currentMonth.toString());
-        setDate(currentDate.toString());
-        setHours("00");
-        setMinutes("00");
-        setSeconds("00");
+        setYear("");
+        setMonth("");
+        setDate("");
+        setHours("");
+        setMinutes("");
+        setSeconds("");
       })
       .catch((error) => console.log(error));
   };
