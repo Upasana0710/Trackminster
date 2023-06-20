@@ -4,6 +4,7 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import AddIcon from "@mui/icons-material/Add";
+import Person2Icon from "@mui/icons-material/Person2";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../images/Logo.png";
@@ -85,7 +86,7 @@ const Menu = ({ setMenuOpen, darkMode, setDarkMode }) => {
       </Close>
       {currentUser?.role === "Admin" && (
         <Link
-          to="/addemployee"
+          to="/employeedetails"
           style={{ textDecoration: "none", color: "inherit", width: "100%" }}
         >
           <Elements>
@@ -105,6 +106,19 @@ const Menu = ({ setMenuOpen, darkMode, setDarkMode }) => {
           </Elements>
         </Link>
       )}
+      {currentUser && currentUser.role === "Employee" && currentUser._id && (
+        <Link
+          to={`/profile/${currentUser._id}`} // Change the route path to '/profile/:id'
+          key={currentUser._id} // Use '_id' instead of 'id'
+          style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+        >
+          <Elements>
+            <Person2Icon />
+            <NavText>Profile</NavText>
+          </Elements>
+        </Link>
+      )}
+
       {darkMode ? (
         <Elements onClick={() => setDarkMode(false)}>
           <LightModeRoundedIcon />
