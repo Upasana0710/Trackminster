@@ -156,12 +156,12 @@ const AddTask = () => {
     return months;
   };
 
-  const [year, setYear] = useState(currentYear.toString());
-  const [month, setMonth] = useState(currentMonth.toString());
-  const [date, setDate] = useState(currentDay.toString());
-  const [hours, setHours] = useState("00");
-  const [minutes, setMinutes] = useState("00");
-  const [seconds, setSeconds] = useState("00");
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [date, setDate] = useState("");
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("");
   const [task, setTask] = useState({
     desc: "",
     type: "",
@@ -266,6 +266,9 @@ const AddTask = () => {
             <FlexContainer>
               <Field>
                 <Select value={year} onChange={(e) => setYear(e.target.value)}>
+                  <Option value="" disabled selected hidden>
+                    Year
+                  </Option>
                   {renderYearOptions()}
                 </Select>
               </Field>
@@ -274,11 +277,17 @@ const AddTask = () => {
                   value={month}
                   onChange={(e) => setMonth(e.target.value)}
                 >
+                  <Option value="" disabled selected hidden>
+                    Month
+                  </Option>
                   {renderMonthOptions()}
                 </Select>
               </Field>
               <Field>
                 <Select value={date} onChange={(e) => setDate(e.target.value)}>
+                  <Option value="" disabled selected hidden>
+                    Day
+                  </Option>
                   {renderDateOptions()}
                 </Select>
               </Field>
@@ -289,7 +298,7 @@ const AddTask = () => {
                   value={hours}
                   onChange={(e) => setHours(e.target.value)}
                 >
-                  <Option value="" disabled>
+                  <Option value="" disabled selected hidden>
                     Hours
                   </Option>
                   {renderTimeOptions(24)}
@@ -300,6 +309,9 @@ const AddTask = () => {
                   value={minutes}
                   onChange={(e) => setMinutes(e.target.value)}
                 >
+                  <Option value="" disabled selected hidden>
+                    Min
+                  </Option>
                   {renderTimeOptions(60)}
                 </Select>
               </Field>
@@ -308,6 +320,9 @@ const AddTask = () => {
                   value={seconds}
                   onChange={(e) => setSeconds(e.target.value)}
                 >
+                  <Option value="" disabled selected hidden>
+                    Sec
+                  </Option>
                   {renderTimeOptions(60)}
                 </Select>
               </Field>

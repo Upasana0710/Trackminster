@@ -3,20 +3,22 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import compression from 'compression';
+import morgan from 'morgan';
 import userRoutes from './src/routes/user.js';
 import taskRoutes from './src/routes/task.js';
 
 dotenv.config();
 
 const corsConfig = {
-  credentials: 'true',
-  origin: 'http://localhost:3000',
-  optionSuccessStatus: '200',
+  credentials: true,
+  origin: true,
 };
 
 const app = express();
 app.use(compression());
+app.use(express.json());
 app.use(cors(corsConfig));
+app.use(morgan('tiny'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }));
 
