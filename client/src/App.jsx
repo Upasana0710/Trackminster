@@ -11,6 +11,7 @@ import DashboardAdmin from "./pages/DashboardAdmin";
 import DashboardEmp from "./pages/DashboardEmp";
 import AddTask from "./pages/AddTask";
 import Profile from "./pages/Profile";
+import Tasks from "./pages/Tasks";
 
 const Trackminster = styled.div`
   display: flex;
@@ -79,6 +80,7 @@ function App() {
                 />
                 <Route path="/addtask" exact element={<AddTask />} />
                 <Route path="/profile/:id" exact element={<Profile />} />
+                <Route path="/tasks" exact element={<Tasks />} />
               </Routes>
             </Container>
           </Trackminster>

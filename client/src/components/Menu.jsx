@@ -5,6 +5,7 @@ import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import AddIcon from "@mui/icons-material/Add";
 import Person2Icon from "@mui/icons-material/Person2";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../images/Logo.png";
@@ -103,6 +104,17 @@ const Menu = ({ setMenuOpen, darkMode, setDarkMode }) => {
           <Elements>
             <AddIcon />
             <NavText>Add Task</NavText>
+          </Elements>
+        </Link>
+      )}
+      {currentUser?.role === "Employee" && (
+        <Link
+          to="/tasks"
+          style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+        >
+          <Elements>
+            <PlaylistAddCheckIcon />
+            <NavText>Tasks</NavText>
           </Elements>
         </Link>
       )}
