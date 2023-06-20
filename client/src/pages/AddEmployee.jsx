@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "@mui/material";
 import styled from "styled-components";
 import RememberMeIcon from "@mui/icons-material/RememberMe";
@@ -8,7 +8,8 @@ import PasswordTwoToneIcon from "@mui/icons-material/PasswordTwoTone";
 import CallIcon from "@mui/icons-material/Call";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import { login } from "../api";
+import { useSelector } from "react-redux";
+import { login, getEmployee, updateUser } from "../api";
 
 const Container = styled.div`
   width: 100%;
@@ -104,7 +105,18 @@ const ButtonContainer = styled.div`
 `;
 
 const AddEmployee = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    contact: "",
+    department: "",
+    doj: "",
+    role: "Employee",
+  });
+  const [updatedUser, setUpdatedUser] = useState({
     name: "",
     username: "",
     email: "",
@@ -134,133 +146,52 @@ const AddEmployee = () => {
       role: "Employee",
     });
   };
+  const handleUpdate = async () => {
+    console.log(updatedUser);
+    await updateUser(currentUser._id, updatedUser)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setUpdatedUser({
+      name: "",
+      username: "",
+      email: updatedUser.email,
+      password: "",
+      contact: "",
+      department: "",
+      doj: "",
+      role: "Employee",
+    });
+  };
+  useEffect(() => {
+    const findData = async () => {
+      const id = currentUser._id;
+      await getEmployee(id).then((res) => {
+        setUpdatedUser({ ...updatedUser, email: res.data.email });
+      });
+    };
+    findData();
+  }, [currentUser]);
   return (
     <>
-      <Modal open={true}>
-        <Container>
-          <Card>
-            <InnerCard>
-              <Role>Employee Details</Role>
-              <Fields>
-                <Field>
-                  <Icon>
-                    <RememberMeIcon style={{ fontSize: "18px" }} />
-                  </Icon>
-                  <Input>
-                    <input
-                      type="text"
-                      placeholder="Name"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.name}
-                      onChange={(e) =>
-                        setUser({ ...user, name: e.target.value })
-                      }
-                    />
-                  </Input>
-                </Field>
-                <Field>
-                  <Icon>
-                    <FingerprintIcon style={{ fontSize: "18px" }} />
-                  </Icon>
-                  <Input>
-                    <input
-                      type="text"
-                      placeholder="Userame"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.username}
-                      onChange={(e) =>
-                        setUser({ ...user, username: e.target.value })
-                      }
-                    />
-                  </Input>
-                </Field>
-                <Field>
-                  <Icon>
-                    <EmailOutlinedIcon style={{ fontSize: "18px" }} />
-                  </Icon>
-                  <Input>
-                    <input
-                      type="text"
-                      placeholder="Email"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.email}
-                      onChange={(e) =>
-                        setUser({ ...user, email: e.target.value })
-                      }
-                    />
-                  </Input>
-                </Field>
-                <Field>
-                  <Icon>
-                    <PasswordTwoToneIcon style={{ fontSize: "18px" }} />
-                  </Icon>
-                  <Input>
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.password}
-                      onChange={(e) =>
-                        setUser({ ...user, password: e.target.value })
-                      }
-                    />
-                  </Input>
-                </Field>
-                <Field>
-                  <Icon>
-                    <CallIcon style={{ fontSize: "18px" }} />
-                  </Icon>
-                  <Input>
-                    <input
-                      type="text"
-                      placeholder="Contact"
-                      style={{
-                        background: "inherit",
-                        color: "inherit",
-                        outline: "none",
-                        border: "none",
-                        width: "100%",
-                      }}
-                      value={user.contact}
-                      onChange={(e) =>
-                        setUser({ ...user, contact: e.target.value })
-                      }
-                    />
-                  </Input>
-                </Field>
-                <FlexContainer>
+      {currentUser?.role === "Admin" ? (
+        <Modal open={true}>
+          <Container>
+            <Card>
+              <InnerCard>
+                <Role>Employee Details</Role>
+                <Fields>
                   <Field>
                     <Icon>
-                      <EventSeatIcon style={{ fontSize: "18px" }} />
+                      <RememberMeIcon style={{ fontSize: "18px" }} />
                     </Icon>
                     <Input>
                       <input
                         type="text"
-                        placeholder="Department"
+                        placeholder="Name"
                         style={{
                           background: "inherit",
                           color: "inherit",
@@ -268,21 +199,21 @@ const AddEmployee = () => {
                           border: "none",
                           width: "100%",
                         }}
-                        value={user.department}
+                        value={user.name}
                         onChange={(e) =>
-                          setUser({ ...user, department: e.target.value })
+                          setUser({ ...user, name: e.target.value })
                         }
                       />
                     </Input>
                   </Field>
                   <Field>
                     <Icon>
-                      <CalendarMonthOutlinedIcon style={{ fontSize: "18px" }} />
+                      <FingerprintIcon style={{ fontSize: "18px" }} />
                     </Icon>
                     <Input>
                       <input
                         type="text"
-                        placeholder="Date of Joining"
+                        placeholder="Userame"
                         style={{
                           background: "inherit",
                           color: "inherit",
@@ -290,22 +221,323 @@ const AddEmployee = () => {
                           border: "none",
                           width: "100%",
                         }}
-                        value={user.doj}
+                        value={user.username}
                         onChange={(e) =>
-                          setUser({ ...user, doj: e.target.value })
+                          setUser({ ...user, username: e.target.value })
                         }
                       />
                     </Input>
                   </Field>
-                </FlexContainer>
-                <ButtonContainer onClick={() => handleSubmit()}>
-                  Register
-                </ButtonContainer>
-              </Fields>
-            </InnerCard>
-          </Card>
-        </Container>
-      </Modal>
+                  <Field>
+                    <Icon>
+                      <EmailOutlinedIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.email}
+                        onChange={(e) =>
+                          setUser({ ...user, email: e.target.value })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <Field>
+                    <Icon>
+                      <PasswordTwoToneIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.password}
+                        onChange={(e) =>
+                          setUser({ ...user, password: e.target.value })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <Field>
+                    <Icon>
+                      <CallIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="tel"
+                        placeholder="Contact"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={user.contact}
+                        onChange={(e) =>
+                          setUser({ ...user, contact: e.target.value })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <FlexContainer>
+                    <Field>
+                      <Icon>
+                        <EventSeatIcon style={{ fontSize: "18px" }} />
+                      </Icon>
+                      <Input>
+                        <input
+                          type="text"
+                          placeholder="Department"
+                          style={{
+                            background: "inherit",
+                            color: "inherit",
+                            outline: "none",
+                            border: "none",
+                            width: "100%",
+                          }}
+                          value={user.department}
+                          onChange={(e) =>
+                            setUser({ ...user, department: e.target.value })
+                          }
+                        />
+                      </Input>
+                    </Field>
+                    <Field>
+                      <Icon>
+                        <CalendarMonthOutlinedIcon
+                          style={{ fontSize: "18px" }}
+                        />
+                      </Icon>
+                      <Input>
+                        <input
+                          type="date"
+                          placeholder="Date of Joining"
+                          style={{
+                            background: "inherit",
+                            color: "inherit",
+                            outline: "none",
+                            border: "none",
+                            width: "100%",
+                          }}
+                          value={user.doj}
+                          onChange={(e) =>
+                            setUser({ ...user, doj: e.target.value })
+                          }
+                        />
+                      </Input>
+                    </Field>
+                  </FlexContainer>
+                  <ButtonContainer onClick={() => handleSubmit()}>
+                    Register
+                  </ButtonContainer>
+                </Fields>
+              </InnerCard>
+            </Card>
+          </Container>
+        </Modal>
+      ) : (
+        <Modal open={true}>
+          <Container>
+            <Card>
+              <InnerCard>
+                <Role>Update Details</Role>
+                <Fields>
+                  <Field>
+                    <Icon>
+                      <RememberMeIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={updatedUser.name}
+                        onChange={(e) =>
+                          setUpdatedUser({
+                            ...updatedUser,
+                            name: e.target.value,
+                          })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <Field>
+                    <Icon>
+                      <FingerprintIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="text"
+                        placeholder="Userame"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={updatedUser.username}
+                        onChange={(e) =>
+                          setUpdatedUser({
+                            ...updatedUser,
+                            username: e.target.value,
+                          })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <Field>
+                    <Icon>
+                      <EmailOutlinedIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="email"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={updatedUser.email}
+                      />
+                    </Input>
+                  </Field>
+                  <Field>
+                    <Icon>
+                      <PasswordTwoToneIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={updatedUser.password}
+                        onChange={(e) =>
+                          setUpdatedUser({
+                            ...updatedUser,
+                            password: e.target.value,
+                          })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <Field>
+                    <Icon>
+                      <CallIcon style={{ fontSize: "18px" }} />
+                    </Icon>
+                    <Input>
+                      <input
+                        type="tel"
+                        placeholder="Contact"
+                        style={{
+                          background: "inherit",
+                          color: "inherit",
+                          outline: "none",
+                          border: "none",
+                          width: "100%",
+                        }}
+                        value={updatedUser.contact}
+                        onChange={(e) =>
+                          setUpdatedUser({
+                            ...updatedUser,
+                            contact: e.target.value,
+                          })
+                        }
+                      />
+                    </Input>
+                  </Field>
+                  <FlexContainer>
+                    <Field>
+                      <Icon>
+                        <EventSeatIcon style={{ fontSize: "18px" }} />
+                      </Icon>
+                      <Input>
+                        <input
+                          type="text"
+                          placeholder="Department"
+                          style={{
+                            background: "inherit",
+                            color: "inherit",
+                            outline: "none",
+                            border: "none",
+                            width: "100%",
+                          }}
+                          value={updatedUser.department}
+                          onChange={(e) =>
+                            setUpdatedUser({
+                              ...updatedUser,
+                              department: e.target.value,
+                            })
+                          }
+                        />
+                      </Input>
+                    </Field>
+                    <Field>
+                      <Icon>
+                        <CalendarMonthOutlinedIcon
+                          style={{ fontSize: "18px" }}
+                        />
+                      </Icon>
+                      <Input>
+                        <input
+                          type="date"
+                          placeholder="Date of Joining"
+                          style={{
+                            background: "inherit",
+                            color: "inherit",
+                            outline: "none",
+                            border: "none",
+                            width: "100%",
+                          }}
+                          value={updatedUser.doj}
+                          onChange={(e) =>
+                            setUpdatedUser({
+                              ...updatedUser,
+                              doj: e.target.value,
+                            })
+                          }
+                        />
+                      </Input>
+                    </Field>
+                  </FlexContainer>
+                  <ButtonContainer onClick={() => handleUpdate()}>
+                    Update
+                  </ButtonContainer>
+                </Fields>
+              </InnerCard>
+            </Card>
+          </Container>
+        </Modal>
+      )}
     </>
   );
 };
