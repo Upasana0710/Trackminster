@@ -11,6 +11,9 @@ const DashContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  @media (max-width: 1100px) {
+    overflow-x: scroll;
+  }
 `;
 const WelcomeHeading = styled.h1`
   font-size: 24px;

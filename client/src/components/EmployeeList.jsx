@@ -11,13 +11,15 @@ const Heading = styled.h1`
   padding-bottom: 10px;
   text-align: start;
 `;
-const Table = styled.h1`
+
+const TableContainer = styled.div`
   width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
+
 const TableHead = styled.div`
   height: 78px;
   box-sizing: border-box;
@@ -29,7 +31,11 @@ const TableHead = styled.div`
   flex-wrap: wrap;
   align-items: center;
   padding: 0px 8px;
+  @media (max-width: 1100px) {
+    flex-wrap: nowrap;
+  }
 `;
+
 const Row = styled.div`
   width: 100%;
   height: 66px;
@@ -49,34 +55,41 @@ const Row = styled.div`
     color: ${({ theme }) => theme.text_primary};
   }
 `;
+
 const Topic = styled.div`
   font-size: 18px;
   font-weight: 500;
   text-align: center;
 `;
+
 const Content = styled.div`
   font-size: 16px;
   font-weight: 420;
   text-align: center;
 `;
+
 const RowLink = styled(Link)`
   text-decoration: none;
 `;
 
 const UserList = () => {
   const [employees, setEmployees] = useState([]);
+
   const fetchData = async () => {
-    await getEmployees()
-      .then((res) => {
-        setEmployees(res.data);
-      })
-      .catch((error) => console.log(error));
+    try {
+      const res = await getEmployees();
+      setEmployees(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
-    <Table>
+    <TableContainer>
       <Heading>Employee Details</Heading>
       <TableHead>
         <Topic style={{ width: "150px" }}>Name</Topic>
@@ -86,23 +99,31 @@ const UserList = () => {
         <Topic style={{ width: "170px" }}>Contact</Topic>
         <Topic style={{ width: "180px" }}>Date of Joining</Topic>
       </TableHead>
-      {employees.map((employee) => (
-        <RowLink to={`/profile/${employee._id}`} key={employee.id}>
-          <Row>
-            <Content style={{ width: "150px" }}>{employee.name}</Content>
-            <Content style={{ width: "150px" }}>{employee.username}</Content>
-            <Content style={{ width: "150px" }}>{employee.department}</Content>
-            <Content
-              style={{ width: "200px", color: "#ac9ffc", fontWeight: "500" }}
-            >
-              {employee.email}
-            </Content>
-            <Content style={{ width: "170px" }}>{employee.contact}</Content>
-            <Content style={{ width: "180px" }}>{employee.doj}</Content>
-          </Row>
-        </RowLink>
-      ))}
-    </Table>
+      <div>
+        {employees.map((employee) => (
+          <RowLink to={`/profile/${employee._id}`} key={employee.id}>
+            <Row>
+              <Content style={{ width: "150px" }}>{employee.name}</Content>
+              <Content style={{ width: "150px" }}>{employee.username}</Content>
+              <Content style={{ width: "150px" }}>
+                {employee.department}
+              </Content>
+              <Content
+                style={{
+                  width: "200px",
+                  color: "#ac9ffc",
+                  fontWeight: "500",
+                }}
+              >
+                {employee.email}
+              </Content>
+              <Content style={{ width: "170px" }}>{employee.contact}</Content>
+              <Content style={{ width: "180px" }}>{employee.doj}</Content>
+            </Row>
+          </RowLink>
+        ))}
+      </div>
+    </TableContainer>
   );
 };
 
