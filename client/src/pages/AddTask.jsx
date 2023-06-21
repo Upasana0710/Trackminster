@@ -226,7 +226,9 @@ const AddTask = () => {
     setTask({ ...task, time: Number(task.time) });
     const token = localStorage.getItem("user_info");
     await createTask(task, token)
-      .then(() => {
+      .then((res) => {
+        if (token == null) alert("No token");
+        console.log(res);
         setTask({ desc: "", type: "", startTime: "", time: 0 });
         setYear("");
         setMonth("");

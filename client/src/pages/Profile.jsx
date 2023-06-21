@@ -18,18 +18,27 @@ const ProfileContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   position: relative;
+
   @media (max-width: 768px) {
-    padding: 6px 10px;
-    justify-content: center;
+    padding: 10px;
+    justify-content: flex-start;
+    width: 100%;
   }
 `;
+
 const Icon = styled.div`
   color: ${({ theme }) => theme.primary};
   cursor: pointer;
   position: absolute;
   right: 40px;
   top: 40px;
+
+  @media (max-width: 768px) {
+    right: 20px;
+    top: 20px;
+  }
 `;
+
 const Heading = styled.div`
   color: ${({ theme }) => theme.primary};
   font-size: 24px;
@@ -38,8 +47,13 @@ const Heading = styled.div`
   padding-top: 20px;
   width: 100%;
   text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
-const Table = styled.h1`
+
+const Table = styled.div`
   width: fit-content;
   display: flex;
   justify-content: center;
@@ -48,7 +62,12 @@ const Table = styled.h1`
   padding: 20px;
   background: ${({ theme }) => theme.bg};
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
+
 const Row = styled.div`
   height: 60px;
   width: 400px;
@@ -61,6 +80,7 @@ const Row = styled.div`
   font-size: 16px;
   font-weight: 500;
 `;
+
 const Left = styled.div`
   flex: 0.5;
   border-right: 1px solid ${({ theme }) => theme.text_primary};
@@ -69,12 +89,14 @@ const Left = styled.div`
   align-items: center;
   height: 100%;
 `;
+
 const Right = styled.div`
   flex: 0.5;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const PieContainer = styled.div`
   display: flex;
   width: 100%;
@@ -82,10 +104,11 @@ const PieContainer = styled.div`
   justify-content: center;
   gap: 60px;
   padding: 40px 0px;
+
   @media (max-width: 768px) {
-    padding: 6px 10px;
+    padding: 10px 0;
     flex-direction: column;
-    align-items: flex-start;
+    width: 100%;
   }
 `;
 
@@ -93,6 +116,7 @@ const Employee = () => {
   const { id } = useParams();
   const [profile, setProfile] = useState();
   const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchData = async () => {
       await getEmployee(id).then((res) => {
@@ -102,6 +126,7 @@ const Employee = () => {
     };
     fetchData();
   }, [id]);
+
   return (
     <ProfileContainer>
       {currentUser?.role === "Employee" && (

@@ -10,7 +10,7 @@ const PieContainer = styled.div`
   align-items: center;
   justify-content: center;
   background: ${({ theme }) => theme.bg};
-  padding: 10px;
+  padding: 10px 40px;
   border-radius: 8px;
   @media (max-width: 768px) {
     width: 400px;

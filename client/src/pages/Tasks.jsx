@@ -26,7 +26,7 @@ const TaskContainer = styled.div`
   position: relative;
   @media (max-width: 768px) {
     padding: 6px 10px;
-    justify-content: center;
+    justify-content: flex-start;
   }
 `;
 

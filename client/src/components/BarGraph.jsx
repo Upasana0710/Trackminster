@@ -6,15 +6,16 @@ import { barData } from "../api/index";
 const BarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: fit-content;
   height: fit-content;
   align-items: center;
   justify-content: center;
   padding: 40px;
   background: ${({ theme }) => theme.bg};
   border-radius: 8px;
+  width: 70%;
   @media (max-width: 768px) {
     padding: 6px 10px;
+    width: 80%;
   }
 `;
 
@@ -112,8 +113,7 @@ const BarGraph = ({ id }) => {
         options={chartOptions}
         series={chartSeries}
         type="bar"
-        width={800}
-        height={500}
+        style={{ width: "100%" }}
       />
     </BarContainer>
   );
