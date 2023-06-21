@@ -13,7 +13,7 @@ const PieContainer = styled.div`
   padding: 10px 40px;
   border-radius: 8px;
   @media (max-width: 768px) {
-    width: 400px;
+    width: 80%;
   }
 `;
 const Title = styled.div`
@@ -63,8 +63,8 @@ const Piechart = ({ day, id }) => {
       <Title>{chartTitle}</Title>
       <Chart
         type="pie"
-        width={420}
-        height={350}
+        height={300}
+        style={{ width: "100%" }}
         series={time}
         options={{
           noData: { text: "Empty Data" },
