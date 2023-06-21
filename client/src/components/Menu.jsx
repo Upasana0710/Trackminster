@@ -124,7 +124,7 @@ const Menu = ({ setMenuOpen, darkMode, setDarkMode }) => {
         >
           <Elements>
             <PlaylistAddCheckIcon />
-            <NavText>Tasks</NavText>
+            <NavText>My Tasks</NavText>
           </Elements>
         </Link>
       )}
