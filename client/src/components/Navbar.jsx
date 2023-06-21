@@ -20,8 +20,9 @@ border-radius: 16px;
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(5.7px);
 -webkit-backdrop-filter: blur(5.7px);
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   padding: 16px;
+  width: 100vw;
 }
 `;
 const Button = styled.div`
