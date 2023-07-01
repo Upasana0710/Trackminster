@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getTasks, deleteTask } from "../api/index";
+import EditTask from "../components/EditTask.jsx";
 
 const Heading = styled.div`
   color: ${({ theme }) => theme.primary};
@@ -126,6 +127,8 @@ const Tasks = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [tasks, setTasks] = useState([]);
   const [taskid, setTaskid] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null); // Add selectedTask state
 
   const getData = async () => {
     await getTasks(currentUser._id)
@@ -141,6 +144,11 @@ const Tasks = () => {
   useEffect(() => {
     getData();
   }, [currentUser]);
+
+  const handleEdit = (task) => {
+    setSelectedTask(task); // Set the selected task
+    setShowEdit(true); // Show the EditTask component
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -176,8 +184,22 @@ const Tasks = () => {
               />
               <Content>
                 <EditDeleteContainer>
-                  <EditIcon />
-                  <DeleteIcon />
+                  <EditIcon
+                    style={{
+                      color: colors[index % 5].primaryColor,
+                      fontSize: "18px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleEdit(task)} // Pass the task to handleEdit
+                  />
+                  <DeleteIcon
+                    style={{
+                      color: colors[index % 5].primaryColor,
+                      fontSize: "18px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleDelete(task._id)}
+                  />
                 </EditDeleteContainer>
                 <TaskTitle>{task.desc}</TaskTitle>
                 <TaskDetails>
@@ -208,6 +230,7 @@ const Tasks = () => {
                     fontSize: "18px",
                     cursor: "pointer",
                   }}
+                  onClick={() => handleEdit(task)} // Pass the task to handleEdit
                 />
                 <DeleteIcon
                   style={{
@@ -232,6 +255,12 @@ const Tasks = () => {
           </TaskCardContainer>
         ))}
       </Container>
+      {showEdit && (
+        <EditTask
+          selectedTask={selectedTask} // Pass the selected task to the EditTask component
+          onClose={() => setShowEdit(false)} // Close the EditTask component
+        />
+      )}
     </TaskContainer>
   );
 };
