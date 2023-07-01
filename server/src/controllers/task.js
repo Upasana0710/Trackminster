@@ -98,3 +98,28 @@ export const barData = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export const updateTask = async (req, res) => {
+  const task = req.body;
+  const { id } = req.params;
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(id, { ...task, id }, { new: true });
+
+    res.json(updatedTask);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteTask = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await Task.findByIdAndDelete(id);
+
+    res.json({ message: 'Deleted task succesfully' });
+  } catch (error) {
+    console.log(error);
+    res.json({ message: error.message });
+  }
+};
