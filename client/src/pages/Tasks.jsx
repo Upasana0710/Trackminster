@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { getTasks } from "../api/index";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { getTasks, deleteTask } from "../api/index";
 
 const Heading = styled.div`
   color: ${({ theme }) => theme.primary};
@@ -74,17 +76,28 @@ const TaskDate = styled.span`
 const TaskTimeTaken = styled.span`
   color: #555555;
 `;
+
 const CardTop = styled.div`
   background: ${({ theme }) => theme.bg};
   width: 100%;
   height: 4px;
 `;
+
 const Content = styled.div`
+  position: relative;
   background: ${({ theme }) => theme.bg};
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+const EditDeleteContainer = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
 `;
 
 const Tasks = () => {
@@ -112,6 +125,7 @@ const Tasks = () => {
   ];
   const { currentUser } = useSelector((state) => state.user);
   const [tasks, setTasks] = useState([]);
+  const [taskid, setTaskid] = useState("");
 
   const getData = async () => {
     await getTasks(currentUser._id)
@@ -127,6 +141,17 @@ const Tasks = () => {
   useEffect(() => {
     getData();
   }, [currentUser]);
+
+  const handleDelete = async (id) => {
+    try {
+      setTaskid(id);
+      await deleteTask(taskid);
+      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskid));
+      console.log("Task deleted successfully");
+    } catch (error) {
+      console.log("Error deleting task:", error);
+    }
+  };
 
   return (
     <TaskContainer>
@@ -150,6 +175,10 @@ const Tasks = () => {
                 style={{ backgroundColor: colors[index % 5].primaryColor }}
               />
               <Content>
+                <EditDeleteContainer>
+                  <EditIcon />
+                  <DeleteIcon />
+                </EditDeleteContainer>
                 <TaskTitle>{task.desc}</TaskTitle>
                 <TaskDetails>
                   <div>
@@ -172,6 +201,23 @@ const Tasks = () => {
               style={{ backgroundColor: colors[index % 5].primaryColor }}
             />
             <Content>
+              <EditDeleteContainer>
+                <EditIcon
+                  style={{
+                    color: colors[index % 5].primaryColor,
+                    fontSize: "18px",
+                    cursor: "pointer",
+                  }}
+                />
+                <DeleteIcon
+                  style={{
+                    color: colors[index % 5].primaryColor,
+                    fontSize: "18px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleDelete(task._id)}
+                />
+              </EditDeleteContainer>
               <TaskTitle>{task.desc}</TaskTitle>
               <TaskDetails>
                 <div>
