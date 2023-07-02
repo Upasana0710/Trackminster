@@ -123,3 +123,24 @@ export const deleteTask = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+
+export const filterTasks = async (req, res) => {
+  const { userid, date } = req.body;
+
+  try {
+    const user = await User.findById(userid).populate({
+      path: 'tasks',
+      match: {
+        startTime: {
+          $gte: new Date(date),
+          $lt: new Date(`${date}T23:59:59.999Z`),
+        },
+      },
+    });
+
+    const { tasks } = user;
+    res.json(tasks);
+  } catch (error) {
+    console.log(error);
+  }
+};
