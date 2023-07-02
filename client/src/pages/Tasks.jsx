@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getTasks, deleteTask } from "../api/index";
+import SearchIcon from "@mui/icons-material/Search";
+import { getTasks, deleteTask, filterTasks } from "../api/index";
 import EditTask from "../components/EditTask.jsx";
 
 const Heading = styled.div`
@@ -101,6 +102,23 @@ const EditDeleteContainer = styled.div`
   gap: 8px;
 `;
 
+const Searchbar = styled.div`
+  display: flex;
+  gap: 6px;
+  width: 400px;
+  border: 1px solid ${({ theme }) => theme.text_secondary};
+  border-radius: 22px;
+  padding: 8px 12px;
+  color: ${({ theme }) => theme.text_secondary};
+`;
+const Input = styled.input`
+  outline: none;
+  border: none;
+  background: inherit;
+  width: 100%;
+  color: ${({ theme }) => theme.text_secondary};
+`;
+
 const Tasks = () => {
   const colors = [
     {
@@ -128,7 +146,11 @@ const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [taskid, setTaskid] = useState("");
   const [showEdit, setShowEdit] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null); // Add selectedTask state
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [date, setDate] = useState(null);
+  const [showDate, setShowDate] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [dateTasks, setDateTasks] = useState([]);
 
   const getData = async () => {
     await getTasks(currentUser._id)
@@ -161,109 +183,181 @@ const Tasks = () => {
     }
   };
 
+  const handleFilter = async (e) => {
+    setDate(e.target.value);
+    const data = { userid: currentUser._id, date };
+    console.log(data);
+    try {
+      await filterTasks(data)
+        .then((res) => {
+          setDateTasks(res.data);
+        })
+        .catch((err) => console.log(err));
+      setShowDate(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleModalClose = () => {
     setShowEdit(false);
   };
 
   return (
     <TaskContainer>
-      <Heading>Today's Tasks</Heading>
-      <Container>
-        {tasks
-          .filter((task) => {
-            const taskStartDate = new Date(task.startTime);
-
-            const today = new Date();
-            return (
-              taskStartDate.getDate() === today.getDate() &&
-              taskStartDate.getMonth() === today.getMonth() &&
-              taskStartDate.getFullYear() === today.getFullYear()
-            );
-          })
-          .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
-          .map((task, index) => (
-            <TaskCardContainer key={task.id}>
-              <CardTop
-                style={{ backgroundColor: colors[index % 5].primaryColor }}
-              />
-              <Content>
-                <EditDeleteContainer>
-                  <EditIcon
-                    style={{
-                      color: colors[index % 5].primaryColor,
-                      fontSize: "18px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleEdit(task)} // Pass the task to handleEdit
-                  />
-                  <DeleteIcon
-                    style={{
-                      color: colors[index % 5].primaryColor,
-                      fontSize: "18px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleDelete(task._id)}
-                  />
-                </EditDeleteContainer>
-                <TaskTitle>{task.desc}</TaskTitle>
-                <TaskDetails>
-                  <div>
-                    <TaskType>Type: {task.type}</TaskType>
-                    <TaskDate>
-                      Date: {new Date(task.startTime).toLocaleDateString()}
-                    </TaskDate>
-                  </div>
-                  <TaskTimeTaken>Time Taken: {task.time}</TaskTimeTaken>
-                </TaskDetails>
-              </Content>
-            </TaskCardContainer>
-          ))}
-      </Container>
-      <Heading>All Tasks</Heading>
-      <Container>
-        {tasks.map((task, index) => (
-          <TaskCardContainer key={task.id}>
-            <CardTop
-              style={{ backgroundColor: colors[index % 5].primaryColor }}
-            />
-            <Content>
-              <EditDeleteContainer>
-                <EditIcon
-                  style={{
-                    color: colors[index % 5].primaryColor,
-                    fontSize: "18px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleEdit(task)} // Pass the task to handleEdit
-                />
-                <DeleteIcon
-                  style={{
-                    color: colors[index % 5].primaryColor,
-                    fontSize: "18px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleDelete(task._id)}
-                />
-              </EditDeleteContainer>
-              <TaskTitle>{task.desc}</TaskTitle>
-              <TaskDetails>
-                <div>
-                  <TaskType>Type: {task.type}</TaskType>
-                  <TaskDate>
-                    Date: {new Date(task.startTime).toLocaleDateString()}
-                  </TaskDate>
-                </div>
-                <TaskTimeTaken>Time Taken: {task.time}</TaskTimeTaken>
-              </TaskDetails>
-            </Content>
-          </TaskCardContainer>
-        ))}
-      </Container>
-      {showEdit && (
-        <EditTask
-          selectedTask={selectedTask} // Pass the selected task to the EditTask component
-          onClose={() => handleModalClose()} // Close the EditTask component
+      <Searchbar>
+        <SearchIcon />
+        <Input
+          type="date"
+          placeholder="Search date to find tasks"
+          value={date}
+          onChange={(e) => handleFilter(e)}
         />
+      </Searchbar>
+      {!showDate ? (
+        <>
+          <Heading>Today's Tasks</Heading>
+          <Container>
+            {tasks
+              .filter((task) => {
+                const taskStartDate = new Date(task.startTime);
+
+                const today = new Date();
+                return (
+                  taskStartDate.getDate() === today.getDate() &&
+                  taskStartDate.getMonth() === today.getMonth() &&
+                  taskStartDate.getFullYear() === today.getFullYear()
+                );
+              })
+              .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+              .map((task, index) => (
+                <TaskCardContainer key={task.id}>
+                  <CardTop
+                    style={{ backgroundColor: colors[index % 5].primaryColor }}
+                  />
+                  <Content>
+                    <EditDeleteContainer>
+                      <EditIcon
+                        style={{
+                          color: colors[index % 5].primaryColor,
+                          fontSize: "18px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleEdit(task)} // Pass the task to handleEdit
+                      />
+                      <DeleteIcon
+                        style={{
+                          color: colors[index % 5].primaryColor,
+                          fontSize: "18px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleDelete(task._id)}
+                      />
+                    </EditDeleteContainer>
+                    <TaskTitle>{task.desc}</TaskTitle>
+                    <TaskDetails>
+                      <div>
+                        <TaskType>Type: {task.type}</TaskType>
+                        <TaskDate>
+                          Date: {new Date(task.startTime).toLocaleDateString()}
+                        </TaskDate>
+                      </div>
+                      <TaskTimeTaken>Time Taken: {task.time}</TaskTimeTaken>
+                    </TaskDetails>
+                  </Content>
+                </TaskCardContainer>
+              ))}
+          </Container>
+          <Heading>All Tasks</Heading>
+          <Container>
+            {tasks.map((task, index) => (
+              <TaskCardContainer key={task.id}>
+                <CardTop
+                  style={{ backgroundColor: colors[index % 5].primaryColor }}
+                />
+                <Content>
+                  <EditDeleteContainer>
+                    <EditIcon
+                      style={{
+                        color: colors[index % 5].primaryColor,
+                        fontSize: "18px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleEdit(task)} // Pass the task to handleEdit
+                    />
+                    <DeleteIcon
+                      style={{
+                        color: colors[index % 5].primaryColor,
+                        fontSize: "18px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleDelete(task._id)}
+                    />
+                  </EditDeleteContainer>
+                  <TaskTitle>{task.desc}</TaskTitle>
+                  <TaskDetails>
+                    <div>
+                      <TaskType>Type: {task.type}</TaskType>
+                      <TaskDate>
+                        Date: {new Date(task.startTime).toLocaleDateString()}
+                      </TaskDate>
+                    </div>
+                    <TaskTimeTaken>Time Taken: {task.time}</TaskTimeTaken>
+                  </TaskDetails>
+                </Content>
+              </TaskCardContainer>
+            ))}
+          </Container>
+          {showEdit && (
+            <EditTask
+              selectedTask={selectedTask} // Pass the selected task to the EditTask component
+              onClose={() => handleModalClose()} // Close the EditTask component
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <Heading>{date}</Heading>
+          <Container>
+            {dateTasks.map((task, index) => (
+              <TaskCardContainer>
+                <CardTop
+                  style={{ backgroundColor: colors[index % 5].primaryColor }}
+                />
+                <Content>
+                  <EditDeleteContainer>
+                    <EditIcon
+                      style={{
+                        color: colors[index % 5].primaryColor,
+                        fontSize: "18px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleEdit(task)} // Pass the task to handleEdit
+                    />
+                    <DeleteIcon
+                      style={{
+                        color: colors[index % 5].primaryColor,
+                        fontSize: "18px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleDelete(task._id)}
+                    />
+                  </EditDeleteContainer>
+                  <TaskTitle>{task.desc}</TaskTitle>
+                  <TaskDetails>
+                    <div>
+                      <TaskType>Type: {task.type}</TaskType>
+                      <TaskDate>
+                        Date: {new Date(task.startTime).toLocaleDateString()}
+                      </TaskDate>
+                    </div>
+                    <TaskTimeTaken>Time Taken: {task.time}</TaskTimeTaken>
+                  </TaskDetails>
+                </Content>
+              </TaskCardContainer>
+            ))}
+          </Container>
+        </>
       )}
     </TaskContainer>
   );
