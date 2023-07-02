@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "https://trackminster.onrender.com/" });
+const API = axios.create({ baseURL: "http://localhost:5000/" });
 
 // auth
 export const login = (user) => API.post("/user/auth", user);
@@ -36,3 +36,6 @@ export const editTask = (id, task) => API.patch(`/task/${id}`, task);
 
 // delete task
 export const deleteTask = (id) => API.delete(`/task/${id}`);
+
+// filter tasks
+export const filterTasks = (filter) => API.post("/task/date", filter);
