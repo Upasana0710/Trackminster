@@ -16,13 +16,15 @@ const PieContainer = styled.div`
     width: 80%;
   }
 `;
+
 const Title = styled.div`
   font-size: 20px;
   font-weight: 420;
   color: ${({ theme }) => theme.text_primary};
   padding-bottom: 40px;
 `;
-const Piechart = ({ day, id }) => {
+
+const Piechart = ({ day, id, colors }) => {
   const [state, setState] = useState([]);
   const [time, setTime] = useState([]);
   const [chartTitle, setChartTitle] = useState("");
@@ -35,9 +37,9 @@ const Piechart = ({ day, id }) => {
       data = { date: new Date().toISOString(), empid: id };
       setChartTitle("Today's Statistics");
     } else {
-      const currentDate = new Date(); // Current date and time
-      currentDate.setDate(currentDate.getDate() - 1); // Subtract 1 day from the current date
-      const previousDateISOString = currentDate.toISOString(); // Convert the previous date to ISO string format
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() - 1);
+      const previousDateISOString = currentDate.toISOString();
       data = { date: previousDateISOString, empid: id };
       setChartTitle("Yesterday's Statistics");
     }
@@ -69,6 +71,7 @@ const Piechart = ({ day, id }) => {
         options={{
           noData: { text: "Empty Data" },
           labels: state,
+          colors,
         }}
       />
     </PieContainer>
