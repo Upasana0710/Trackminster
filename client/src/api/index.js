@@ -31,5 +31,8 @@ export const barData = (data) => API.post("/task/bar", data);
 // get tasks
 export const getTasks = (id) => API.get(`/user/tasks/${id}`);
 
+// update task
+export const editTask = (id, task) => API.patch(`/task/${id}`, task);
+
 // delete task
 export const deleteTask = (id) => API.delete(`/task/${id}`);
