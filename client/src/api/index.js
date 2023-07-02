@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "https://trackminster.onrender.com" });
+const API = axios.create({ baseURL: "https://trackminster.onrender.com/" });
 
 // auth
 export const login = (user) => API.post("/user/auth", user);
