@@ -12,7 +12,7 @@ const BarContainer = styled.div`
   padding: 40px;
   background: ${({ theme }) => theme.bg};
   border-radius: 8px;
-  width: 70%;
+  width: 60%;
   @media (max-width: 768px) {
     padding: 6px 10px;
     width: 80%;
