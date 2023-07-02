@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Modal } from "@mui/material";
-import { createTask } from "../api/index";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { editTask } from "../api/index";
 
 const AddContainer = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const InnerCard = styled.div`
   flex-direction: column;
   align-items: center;
   border: 2px dashed ${({ theme }) => theme.text_secondary + 99};
+  position: relative;
 `;
 
 const Heading = styled.div`
@@ -135,7 +137,15 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const EditTask = ({ selectedTask }) => {
+const CloseIconContainer = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.text_secondary};
+`;
+
+const EditTask = ({ selectedTask, onClose }) => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
@@ -218,7 +228,7 @@ const EditTask = ({ selectedTask }) => {
     return dates;
   };
 
-  const handleRegisterClick = async () => {
+  const handleSaveClick = async () => {
     const selectedYear = parseInt(year, 10);
     const selectedMonth = parseInt(month, 10);
     const selectedDate = parseInt(date, 10);
@@ -237,10 +247,8 @@ const EditTask = ({ selectedTask }) => {
     task.startTime = timestamp.toString();
     setTask({ ...task, startTime: timestamp.toString() });
     setTask({ ...task, time: Number(task.time) });
-    const token = localStorage.getItem("user_info");
-    await createTask(task, token)
+    await editTask(selectedTask._id, task)
       .then((res) => {
-        if (token == null) alert("No token");
         console.log(res);
         setTask({ desc: "", type: "", startTime: "", time: 0 });
         setYear("");
@@ -272,19 +280,22 @@ const EditTask = ({ selectedTask }) => {
         <AddContainer>
           <Card>
             <InnerCard>
+              <CloseIconContainer onClick={() => onClose()}>
+                <CloseRoundedIcon style={{ fontSize: "24px" }} />
+              </CloseIconContainer>
               <Heading>Edit Task</Heading>
               <Fields>
                 <Field>
                   <TextArea
                     rows="5"
                     placeholder="Description"
-                    value={selectedTask.desc}
+                    value={task.desc}
                     onChange={(e) => setTask({ ...task, desc: e.target.value })}
                   />
                 </Field>
                 <Field>
                   <Select
-                    value={selectedTask.type}
+                    value={task.type}
                     onChange={(e) => setTask({ ...task, type: e.target.value })}
                   >
                     <Option value="">Type</Option>
@@ -375,8 +386,8 @@ const EditTask = ({ selectedTask }) => {
                     }
                   />
                 </Field>
-                <ButtonContainer onClick={handleRegisterClick}>
-                  Register
+                <ButtonContainer onClick={handleSaveClick}>
+                  Save Task
                 </ButtonContainer>
               </Fields>
             </InnerCard>

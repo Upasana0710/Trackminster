@@ -161,6 +161,10 @@ const Tasks = () => {
     }
   };
 
+  const handleModalClose = () => {
+    setShowEdit(false);
+  };
+
   return (
     <TaskContainer>
       <Heading>Today's Tasks</Heading>
@@ -258,7 +262,7 @@ const Tasks = () => {
       {showEdit && (
         <EditTask
           selectedTask={selectedTask} // Pass the selected task to the EditTask component
-          onClose={() => setShowEdit(false)} // Close the EditTask component
+          onClose={() => handleModalClose()} // Close the EditTask component
         />
       )}
     </TaskContainer>
