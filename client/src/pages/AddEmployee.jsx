@@ -96,12 +96,13 @@ const ButtonContainer = styled.div`
   background: ${({ theme }) => theme.primary + 99};
   color: ${({ theme }) => theme.text_primary};
   font-size: 14px;
-  height: 28px;
+  height: 38px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+  cursor: pointer;
 `;
 
 const AddEmployee = () => {

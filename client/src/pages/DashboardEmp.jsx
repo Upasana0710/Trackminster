@@ -27,6 +27,7 @@ const PieContainer = styled.div`
   justify-content: space-evenly;
   padding: 20px 0px;
   gap: 18px;
+  width: 80%;
 
   @media (max-width: 768px) {
     flex-direction: column;

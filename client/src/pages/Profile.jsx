@@ -10,7 +10,7 @@ import BarGraph from "../components/BarGraph";
 const ProfileContainer = styled.div`
   padding: 20px 30px;
   padding-bottom: 200px;
-  height: 100%;
+  width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
@@ -30,7 +30,7 @@ const Icon = styled.div`
   color: ${({ theme }) => theme.primary};
   cursor: pointer;
   position: absolute;
-  right: 40px;
+  right: 80px;
   top: 40px;
 
   @media (max-width: 768px) {
@@ -99,7 +99,7 @@ const Right = styled.div`
 
 const PieContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 80%;
   align-items: center;
   justify-content: center;
   gap: 60px;
@@ -116,6 +116,7 @@ const Employee = () => {
   const { id } = useParams();
   const [profile, setProfile] = useState();
   const { currentUser } = useSelector((state) => state.user);
+  const colors = ["#FFC107", "#4CAF50", "#2196F3"];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -160,8 +161,8 @@ const Employee = () => {
         </Row>
       </Table>
       <PieContainer>
-        <Piechart day={true} id={id} />
-        <Piechart day={false} id={id} />
+        <Piechart day={true} id={id} colors={colors} />
+        <Piechart day={false} id={id} colors={colors} />
       </PieContainer>
       <BarGraph id={id} />
     </ProfileContainer>
