@@ -146,12 +146,37 @@ const Tasks = () => {
   const { id } = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const [tasks, setTasks] = useState([]);
-  const [taskid, setTaskid] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [date, setDate] = useState(null);
   const [showDate, setShowDate] = useState(false);
   const [dateTasks, setDateTasks] = useState([]);
+
+  const handleEdit = (task) => {
+    setSelectedTask(task); // Set the selected task
+    setShowEdit(true); // Show the EditTask component
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteTask(id).catch((err) => console.log(err));
+      let profile;
+      if (currentUser.role === "Employee") profile = currentUser._id;
+      else profile = id;
+      await getTasks(profile)
+        .then((res) => {
+          setTasks(res.data);
+          console.log(tasks);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskid));
+      console.log("Task deleted successfully");
+    } catch (error) {
+      console.log("Error deleting task:", error);
+    }
+  };
 
   const getData = async () => {
     let profile;
@@ -169,23 +194,7 @@ const Tasks = () => {
 
   useEffect(() => {
     getData();
-  }, [currentUser]);
-
-  const handleEdit = (task) => {
-    setSelectedTask(task); // Set the selected task
-    setShowEdit(true); // Show the EditTask component
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      setTaskid(id);
-      await deleteTask(taskid);
-      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskid));
-      console.log("Task deleted successfully");
-    } catch (error) {
-      console.log("Error deleting task:", error);
-    }
-  };
+  }, [currentUser, handleDelete, handleEdit]);
 
   const handleFilter = async () => {
     let data;
