@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
@@ -142,6 +143,7 @@ const Tasks = () => {
       secondaryColor: "#F3F0FD",
     },
   ];
+  const { id } = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const [tasks, setTasks] = useState([]);
   const [taskid, setTaskid] = useState("");
@@ -152,7 +154,10 @@ const Tasks = () => {
   const [dateTasks, setDateTasks] = useState([]);
 
   const getData = async () => {
-    await getTasks(currentUser._id)
+    let profile;
+    if (currentUser.role === "Employee") profile = currentUser._id;
+    else profile = id;
+    await getTasks(profile)
       .then((res) => {
         setTasks(res.data);
         console.log(tasks);
@@ -183,7 +188,10 @@ const Tasks = () => {
   };
 
   const handleFilter = async () => {
-    const data = { userid: currentUser._id, date };
+    let data;
+    if (currentUser.role === "Employee")
+      data = { userid: currentUser._id, date };
+    else data = { userid: id, date };
     try {
       await filterTasks(data)
         .then((res) => {

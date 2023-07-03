@@ -81,6 +81,7 @@ function App() {
                 <Route path="/addtask" exact element={<AddTask />} />
                 <Route path="/profile/:id" exact element={<Profile />} />
                 <Route path="/tasks" exact element={<Tasks />} />
+                <Route path="/tasks/:id" exact element={<Tasks />} />
               </Routes>
             </Container>
           </Trackminster>

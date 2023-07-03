@@ -130,11 +130,15 @@ const Employee = () => {
 
   return (
     <ProfileContainer>
-      {currentUser?.role === "Employee" && (
+      {currentUser?.role === "Employee" ? (
         <Link to="/employeedetails">
           <Icon>
             <EditIcon />
           </Icon>
+        </Link>
+      ) : (
+        <Link to={`/tasks/${id}`} key={id}>
+          <Icon>View Tasks</Icon>
         </Link>
       )}
       <Heading>{profile?.name}</Heading>
