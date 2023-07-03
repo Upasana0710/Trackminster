@@ -78,10 +78,16 @@ function App() {
                   exact
                   element={<AddEmployee />}
                 />
-                <Route path="/addtask" exact element={<AddTask />} />
+                {currentUser.role === "Employee" && (
+                  <Route path="/addtask" exact element={<AddTask />} />
+                )}
                 <Route path="/profile/:id" exact element={<Profile />} />
-                <Route path="/tasks" exact element={<Tasks />} />
-                <Route path="/tasks/:id" exact element={<Tasks />} />
+                {currentUser.role === "Employee" && (
+                  <Route path="/tasks" exact element={<Tasks />} />
+                )}
+                {currentUser.role === "Admin" && (
+                  <Route path="/tasks/:id" exact element={<Tasks />} />
+                )}
               </Routes>
             </Container>
           </Trackminster>
