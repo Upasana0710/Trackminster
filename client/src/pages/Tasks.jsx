@@ -149,7 +149,6 @@ const Tasks = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [date, setDate] = useState(null);
   const [showDate, setShowDate] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [dateTasks, setDateTasks] = useState([]);
 
   const getData = async () => {
@@ -183,14 +182,13 @@ const Tasks = () => {
     }
   };
 
-  const handleFilter = async (e) => {
-    setDate(e.target.value);
+  const handleFilter = async () => {
     const data = { userid: currentUser._id, date };
-    console.log(data);
     try {
       await filterTasks(data)
         .then((res) => {
           setDateTasks(res.data);
+          console.log(dateTasks);
         })
         .catch((err) => console.log(err));
       setShowDate(true);
@@ -198,6 +196,10 @@ const Tasks = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    handleFilter();
+  }, [date]);
 
   const handleModalClose = () => {
     setShowEdit(false);
@@ -211,7 +213,7 @@ const Tasks = () => {
           type="date"
           placeholder="Search date to find tasks"
           value={date}
-          onChange={(e) => handleFilter(e)}
+          onChange={(e) => setDate(e.target.value)}
         />
       </Searchbar>
       {!showDate ? (
@@ -320,7 +322,7 @@ const Tasks = () => {
           <Heading>{date}</Heading>
           <Container>
             {dateTasks.map((task, index) => (
-              <TaskCardContainer>
+              <TaskCardContainer key={task._id}>
                 <CardTop
                   style={{ backgroundColor: colors[index % 5].primaryColor }}
                 />
