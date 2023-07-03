@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/userSlice";
 
 const Navcontainer = styled.div`
@@ -58,9 +59,11 @@ const IcoButton = styled(IconButton)`
 `;
 const Content = styled.div``;
 const Navbar = ({ menuOpen, setMenuOpen }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/");
   };
   const { currentUser } = useSelector((state) => state.user);
   return (
